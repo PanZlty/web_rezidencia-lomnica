@@ -70,7 +70,7 @@ add_action('wp_footer', function () {
         if (codeMatch) {
           var prefix = codeMatch[1].toUpperCase();
           var number = String(parseInt(codeMatch[2], 10)).padStart(2, '0');
-          if (prefix === 'P' || prefix === 'G' || prefix === 'S') {
+          if (prefix === 'P' || prefix === 'G') {
             return prefix + number;
           }
           return prefix + '-' + number;
@@ -84,11 +84,6 @@ add_action('wp_footer', function () {
         var apartmentMatch = text.match(/\bApartm[aá]n\s*-?\s*([A-Z])\b/i);
         if (apartmentMatch) {
           return 'AP-' + apartmentMatch[1].toUpperCase();
-        }
-
-        var storageMatch = text.match(/\bSklad\s*-?\s*(\d{1,2})\b/i);
-        if (storageMatch) {
-          return 'S' + String(parseInt(storageMatch[1], 10)).padStart(2, '0');
         }
 
         var parkingMatch = text.match(/\b(?:Parkovacie miesto|Parking|Miesto)\s*-?\s*(\d{1,2})\b/i);
@@ -105,15 +100,11 @@ add_action('wp_footer', function () {
         if (!normalized) return [];
 
         var out = [normalized];
-        var prefixed = normalized.match(/^([PGS])\s*-?\s*(\d+)$/i);
+        var prefixed = normalized.match(/^([PG])\s*-?\s*(\d+)$/i);
         if (prefixed) {
           var number = String(parseInt(prefixed[2], 10));
           var padded = number.padStart(2, '0');
-          if (prefixed[1].toUpperCase() === 'S') {
-            out.push('S' + padded, 'S-' + padded);
-          } else {
-            out.push(padded, number, prefixed[1].toUpperCase() + padded);
-          }
+          out.push(padded, number, prefixed[1].toUpperCase() + padded);
         } else if (/^\d+$/.test(normalized)) {
           var raw = String(parseInt(normalized, 10));
           var pad = raw.padStart(2, '0');
@@ -126,12 +117,6 @@ add_action('wp_footer', function () {
       }
 
       function statusLabel(status, unitType) {
-        if (unitType === 'storage') {
-          if (status === 'available') return 'Dostupný';
-          if (status === 'reserved') return 'Rezervovaný';
-          if (status === 'sold') return 'Predaný';
-        }
-
         if (unitType === 'parking') {
           if (status === 'available') return 'Dostupné';
           if (status === 'reserved') return 'Rezervované';
@@ -249,4 +234,3 @@ add_action('wp_footer', function () {
     </script>
     <?php
 }, 50);
-
