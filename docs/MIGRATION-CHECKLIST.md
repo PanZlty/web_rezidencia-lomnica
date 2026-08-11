@@ -18,7 +18,7 @@
 
 - [ ] Vytvoriť/exportovať lomnický CPT byty.
 - [ ] Overiť ACF field names a status values.
-- [ ] Overiť CPT pre sklady a parking.
+- [ ] Overiť CPT iba pre samostatne predávané parkovanie; sklad ostáva atribútom bytu.
 - [ ] Doplniť lomnické assety do wp-content/uploads/rezidencia-lomnica/.
 - [ ] Nastaviť rezidencia_lomnica_asset_url, ak budú assety v inom umiestnení.
 - [ ] Nastaviť kontaktné údaje a texty v Bricks/ACF Options.
@@ -37,4 +37,3 @@
 - [ ] Galéria: počiatočný počet položiek a load-more.
 - [ ] Accessibility: nadpisová hierarchia, focus states, aria atribúty.
 - [ ] Bezpečnosť: PHP lint, žiadne secrets, žiadne debug texty na fronte.
-
