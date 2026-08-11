@@ -33,19 +33,19 @@ add_action('wp_enqueue_scripts', static function () {
 .rs-status-pill--available,
 .rs-status-pill[data-status="available"],
 .status-available {
-  background: var(--status-available, var(--available, #2f7d72));
+  background: var(--status-available, var(--available, #3c776b));
 }
 
 .rs-status-pill--reserved,
 .rs-status-pill[data-status="reserved"],
 .status-reserved {
-  background: var(--status-reserved, var(--reserved, #b97828));
+  background: var(--status-reserved, var(--reserved, #a8762f));
 }
 
 .rs-status-pill--sold,
 .rs-status-pill[data-status="sold"],
 .status-sold {
-  background: var(--status-sold, var(--sold, #a94f50));
+  background: var(--status-sold, var(--sold, #9d5252));
 }
 CSS
     );
