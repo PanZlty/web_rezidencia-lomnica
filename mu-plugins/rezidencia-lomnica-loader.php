@@ -20,7 +20,6 @@ if (!function_exists('rl_asset_url')) {
 
 $rezidencia_lomnica_modules = [
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/brand-tokens.php',
-    WPMU_PLUGIN_DIR . '/rezidencia-lomnica/brand-assets.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/image-map-shortcodes.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/image-map-list-pills.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/image-map-mobile.php',
@@ -37,7 +36,6 @@ $rezidencia_lomnica_modules = [
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/image-map-css.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/image-map-styles.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/image-map-hover-guard.php',
-    WPMU_PLUGIN_DIR . '/rezidencia-lomnica/header-layout.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/legacy-storage-cleanup.php',
 ];
 
