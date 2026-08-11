@@ -35,20 +35,21 @@ Zachovaný kontrakt zo Štúrovej:
 | Image Map shortcode | rs floor_map_shortcode |
 | Popis | rs apartment_description |
 | Rozpis miestností | rs room_areas_ground, rs room_areas_upper |
+| Sklad patriaci k bytu | rs cellar_code, rs cellar_area |
 
-Doplnkové jednotky:
+Samostatne predávané jednotky:
 
 | Typ | CPT | Kód | Cena | Status |
 |---|---|---|---|---|
-| Sklad | rs sklady / sklad | rs cellar_code | rs price / cellar_price | rs status / cellar_status |
 | Parkovanie | rs parking / parkovacie-miesta | rs parking_number | rs parking_price | rs parking_status |
+
+Sklad nie je samostatný produkt ani samostatný CPT. Každý byt môže mať jeden sklad evidovaný ako súčasť bytu. Sklad sa nezobrazuje v samostatnom zozname, nemá vlastný status predaja a nepoužíva samostatný Image Map tooltip.
 
 ## 4. Statusy
 
 Technické hodnoty sú rs available, rs reserved, rs sold.
 
 - byt: Na predaj / Rezervovaný / Predaný,
-- sklad: Dostupný / Rezervovaný / Predaný,
 - parkovanie: Dostupné / Rezervované / Predané.
 
 Farby a CSS tokeny sú v brand-tokens.php; dizajn sa dá meniť bez zásahu do dátovej logiky.
@@ -77,4 +78,3 @@ Farby a CSS tokeny sú v brand-tokens.php; dizajn sa dá meniť bez zásahu do d
 ## 7. Stránky a obsah
 
 Slugy, page ID, kontakty, doména, analytika, texty, Bricks element IDs a assety sa nesmú preberať zo Štúrovej naslepo. Doplniť ich podľa lomnického WordPress projektu a zaznamenať do docs/MIGRATION-CHECKLIST.md.
-
