@@ -9,6 +9,7 @@ Projekt preberá funkčnú logiku z PanZlty/web_rezidencia-sturova:
 - CPT a ACF dáta bytov,
 - synchronizácia ceny/statusu z Google Sheets do WordPressu,
 - Image Map Pro tooltipy, statusy, aliasy a object-list pills,
+- sklad ako súčasť konkrétneho bytu, nie ako samostatne predávanú jednotku,
 - galériu s tlačidlom „Načítať viac“,
 - termín výstavby s progress barom,
 - dynamický status pill,
@@ -29,4 +30,3 @@ Mení sa dizajn, obsah, assety a lomnické WordPress konfigurácie. Aktívny cus
 ## Dôležité
 
 Pred nasadením doplň lomnické ID/slugy, ACF konfiguráciu, kontakty, analytický identifikátor, Image Map assety a SFTP target. Do repozitára neukladaj heslá, tokeny, .env, wp-config.php ani databázové exporty.
-

@@ -1,0 +1,7 @@
+.env
+.env.*
+wp-config.php
+*.sql
+*.sql.gz
+deploy-mu-plugins/
+.DS_Store
