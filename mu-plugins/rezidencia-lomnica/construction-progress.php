@@ -29,7 +29,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
   border-radius: var(--radius-l, 2rem);
   background: var(--white, #ffffff);
   border: 1px solid rgba(255, 255, 255, 0.28);
-  color: var(--heading, #202a2f);
+  color: var(--heading, #222624);
   box-shadow: 0 2.4rem 6rem rgba(0, 0, 0, 0.16);
   font-family: inherit;
   font-weight: 400;
@@ -49,7 +49,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
 }
 
 .construction-progress__title {
-  color: var(--heading, #202a2f);
+  color: var(--heading, #222624);
   font-family: "Cormorant Garamond", serif;
   font-size: clamp(2.6rem, 3vw, 4rem);
   line-height: 1.05;
@@ -58,7 +58,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
 
 .construction-progress__label {
   margin-top: 0.7rem;
-  color: var(--text, #596469);
+  color: var(--text, #626865);
   font-size: var(--text-s, 1.5rem);
   line-height: 1.45;
   font-weight: 500;
@@ -70,7 +70,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
   padding: 0;
   border-radius: 0;
   background: transparent;
-  color: var(--primary, #4e707a);
+  color: var(--primary, #556b6d);
   text-align: right;
   white-space: nowrap;
 }
@@ -86,7 +86,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
 .construction-progress__days span {
   display: block;
   margin-top: 0.45rem;
-  color: var(--muted, #7d8788);
+  color: var(--muted, #8c8c83);
   font-size: 1.25rem;
   line-height: 1.2;
   font-weight: 600;
@@ -106,7 +106,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
   height: 100%;
   min-width: 0.8rem;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--tertiary-d-2, #7f4637), var(--tertiary, #b86b50));
+  background: linear-gradient(90deg, var(--tertiary-d-2, #6a3a2f), var(--tertiary, #a3654f));
   transition: width 0.6s ease;
 }
 
@@ -115,7 +115,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
   justify-content: space-between;
   gap: 1.5rem;
   margin-top: 1.2rem;
-  color: var(--muted, #7d8788);
+  color: var(--muted, #8c8c83);
   font-size: 1.3rem;
   line-height: 1.35;
   font-weight: 600;
