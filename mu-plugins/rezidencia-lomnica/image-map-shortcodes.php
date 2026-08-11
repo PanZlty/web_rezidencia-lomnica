@@ -131,15 +131,6 @@ if (!function_exists('rs_imp_unit_definitions')) {
                 'detail_url' => true,
                 'type_label' => 'Byt',
             ),
-            'storage' => array(
-                'post_types' => array('sklady', 'sklad'),
-                'code_field' => 'cellar_code',
-                'price_field' => array('price', 'cellar_price'),
-                'status_field' => array('status', 'cellar_status'),
-                'area_field' => 'cellar_area',
-                'detail_url' => false,
-                'type_label' => 'Sklad',
-            ),
             'parking' => array(
                 'post_types' => array('parking', 'parkovacie-miesta'),
                 'code_field' => 'parking_number',
@@ -181,7 +172,6 @@ if (!function_exists('rs_imp_normalize_unit_type')) {
         $unit_type = sanitize_key((string) $unit_type);
         $aliases = array(
             'apartment' => array('apartment', 'apartments', 'byt', 'byty'),
-            'storage' => array('storage', 'storages', 'sklad', 'sklady', 'cellar', 'cellars'),
             'parking' => array('parking', 'parkovanie', 'parkovacie-miesta', 'parkovacie_miesta'),
         );
 
@@ -225,18 +215,6 @@ if (!function_exists('rs_imp_code_candidates')) {
                 $candidates[] = 'P' . $padded;
                 $candidates[] = 'G' . $padded;
             }
-        } elseif ($unit_type === 'storage') {
-            if (preg_match('/^S\s*-?\s*(\d+)$/i', $code, $match)) {
-                $number = (string) absint($match[1]);
-                $padded = str_pad($number, 2, '0', STR_PAD_LEFT);
-                $candidates[] = 'S' . $padded;
-                $candidates[] = 'S-' . $padded;
-            } elseif (preg_match('/^\d+$/', $code)) {
-                $number = (string) absint($code);
-                $padded = str_pad($number, 2, '0', STR_PAD_LEFT);
-                $candidates[] = 'S' . $padded;
-                $candidates[] = 'S-' . $padded;
-            }
         }
 
         return array_values(array_unique(array_filter($candidates, 'strlen')));
@@ -267,7 +245,7 @@ if (!function_exists('rs_imp_unit_id_by_code')) {
 
             $posts = get_posts(array(
                 'post_type' => $post_types,
-                'post_status' => array('publish', 'draft', 'pending', 'private'),
+                'post_status' => 'publish',
                 'posts_per_page' => 1,
                 'fields' => 'ids',
                 'meta_query' => array(array('key' => $definition['code_field'], 'value' => $code_candidates, 'compare' => 'IN')),
@@ -317,11 +295,6 @@ if (!function_exists('rs_imp_unit_status_label')) {
         $labels = array(
             'apartment' => array(
                 'available' => 'Na predaj',
-                'reserved' => 'Rezervovaný',
-                'sold' => 'Predaný',
-            ),
-            'storage' => array(
-                'available' => 'Dostupný',
                 'reserved' => 'Rezervovaný',
                 'sold' => 'Predaný',
             ),
@@ -450,6 +423,8 @@ add_shortcode('rs_apartment_map_card', function($atts) {
     $rooms = rs_imp_room_text(rs_imp_field('rooms', $post_id));
     $area_total = rs_imp_number_text(rs_imp_field('area_total', $post_id), 'm²');
     $balcony_area = rs_imp_number_text(rs_imp_field('balcony_area', $post_id), 'm²');
+    $cellar_code = sanitize_text_field((string) rs_imp_field('cellar_code', $post_id));
+    $cellar_area = rs_imp_number_text(rs_imp_field('cellar_area', $post_id), 'm²');
     $image = get_the_post_thumbnail_url($post_id, 'large');
     $url = get_permalink($post_id);
     $display_title = rs_imp_display_title($post_id, rs_imp_field('apartment_code', $post_id));
@@ -467,6 +442,12 @@ add_shortcode('rs_apartment_map_card', function($atts) {
     if ($rooms) { $meta_items[] = array('icon' => rl_asset_url('dispozicia.svg'), 'value' => $rooms); }
     if ($area_total) { $meta_items[] = array('icon' => rl_asset_url('vymera.svg'), 'value' => $area_total); }
     if ($balcony_area) { $meta_items[] = array('icon' => rl_asset_url('balkon.svg'), 'value' => $balcony_area); }
+    if ($cellar_code || $cellar_area) {
+        $meta_items[] = array(
+            'icon' => rl_asset_url('sklad.svg'),
+            'value' => $cellar_area ? 'Sklad ' . $cellar_area : 'Sklad v cene',
+        );
+    }
 
     $tooltip_vars = array(
         '--rs-map-text' => $tokens['text'],
@@ -597,7 +578,7 @@ add_shortcode('rs_map_unit_card', function($atts) {
 });
 
 add_shortcode('rs_apartment_codes', function() {
-    $posts = get_posts(array('post_type' => 'byty', 'post_status' => array('publish', 'draft', 'pending', 'private'), 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC'));
+    $posts = get_posts(array('post_type' => 'byty', 'post_status' => 'publish', 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC'));
     if (empty($posts)) { return '<p>Nenašli sa žiadne byty v CPT byty.</p>'; }
 
     $html = '<table class="rs-apartment-codes" style="width:100%;border-collapse:collapse;font-size:14px;"><thead><tr><th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">Názov</th><th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">apartment_code</th><th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">price</th><th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">status</th></tr></thead><tbody>';
@@ -620,7 +601,7 @@ add_shortcode('rs_map_unit_codes', function() {
 
         $posts = get_posts(array(
             'post_type' => $post_types,
-            'post_status' => array('publish', 'draft', 'pending', 'private'),
+            'post_status' => 'publish',
             'posts_per_page' => -1,
             'orderby' => 'title',
             'order' => 'ASC',
@@ -658,7 +639,7 @@ add_action('wp_footer', function() {
 
         $posts = get_posts(array(
             'post_type' => $post_types,
-            'post_status' => array('publish', 'draft', 'pending', 'private'),
+            'post_status' => 'publish',
             'posts_per_page' => -1,
             'fields' => 'ids',
         ));
@@ -709,8 +690,8 @@ add_action('wp_footer', function() {
       function isShape(el){if(!el||!el.tagName||isSoldHatch(el))return false;var t=el.tagName.toLowerCase();return ['path','polygon','rect','ellipse','circle'].indexOf(t)>-1;}
       function shapes(el){if(!el)return[];if(isShape(el))return[el];return el.querySelectorAll?Array.prototype.slice.call(el.querySelectorAll('path,polygon,rect,ellipse,circle')).filter(function(shape){return !isSoldHatch(shape);}) :[];}
       function readCodeRaw(el){if(!el)return'';var a=['data-rs-map-unit-code','data-rs-apartment-code','data-title','data-name','data-object-title','data-object-name','aria-label','title'];for(var i=0;i<a.length;i++){var v=el.getAttribute&&el.getAttribute(a[i]);if(v)return n(v);}var title=el.querySelector&&el.querySelector('title');if(title&&title.textContent)return n(title.textContent);return n(el.textContent);}
-      function normalizeHumanLabel(value){value=n(value);var m=value.match(/^byt\s*-?\s*(\d+)$/i);if(m){return 'B-'+String(parseInt(m[1],10)).padStart(2,'0');}m=value.match(/^apartm[aá]n\s*-?\s*([a-z])$/i);if(m){return 'AP-'+m[1].toUpperCase();}m=value.match(/^sklad\s*-?\s*(\d+)$/i);if(m){return 'S'+String(parseInt(m[1],10)).padStart(2,'0');}m=value.match(/^(?:parkovacie\s+miesto|parking|miesto)\s*-?\s*(\d+)$/i);if(m){return 'P'+String(parseInt(m[1],10)).padStart(2,'0');}return value;}
-      function codeCandidates(value){value=normalizeHumanLabel(value);if(!value)return[];var out=[value];var m=value.match(/^([PGS])\s*-?\s*(\d+)$/i);if(m){var num=String(parseInt(m[2],10));var padded=num.padStart(2,'0');if(m[1].toUpperCase()==='S'){out.push('S'+padded,'S-'+padded);}else{out.push(padded,num,m[1].toUpperCase()+padded);}}else if(/^\d+$/.test(value)){var raw=String(parseInt(value,10));var pad=raw.padStart(2,'0');out.push(raw,pad,'P'+pad,'G'+pad);}return out.filter(function(item,index){return item&&out.indexOf(item)===index;});}
+      function normalizeHumanLabel(value){value=n(value);var m=value.match(/^byt\s*-?\s*(\d+)$/i);if(m){return 'B-'+String(parseInt(m[1],10)).padStart(2,'0');}m=value.match(/^apartm[aá]n\s*-?\s*([a-z])$/i);if(m){return 'AP-'+m[1].toUpperCase();}m=value.match(/^(?:parkovacie\s+miesto|parking|miesto)\s*-?\s*(\d+)$/i);if(m){return 'P'+String(parseInt(m[1],10)).padStart(2,'0');}return value;}
+      function codeCandidates(value){value=normalizeHumanLabel(value);if(!value)return[];var out=[value];var m=value.match(/^([PG])\s*-?\s*(\d+)$/i);if(m){var num=String(parseInt(m[2],10));var padded=num.padStart(2,'0');out.push(padded,num,m[1].toUpperCase()+padded);}else if(/^\d+$/.test(value)){var raw=String(parseInt(value,10));var pad=raw.padStart(2,'0');out.push(raw,pad,'P'+pad,'G'+pad);}return out.filter(function(item,index){return item&&out.indexOf(item)===index;});}
       function resolveCode(value){var candidates=codeCandidates(value);if(!candidates.length)return'';var items=allData();for(var i=0;i<candidates.length;i++){if(items[candidates[i]])return candidates[i];}var lower=candidates.map(function(item){return item.toLowerCase();});for(var code in items){if(!Object.prototype.hasOwnProperty.call(items,code))continue;var item=items[code]||{};if(lower.indexOf(n(item.title).toLowerCase())>-1)return code;if(lower.indexOf(n(item.code).toLowerCase())>-1)return code;}return'';}
       function codeFromDescendant(el){if(!el||!el.querySelectorAll)return'';var nodes=el.querySelectorAll('[data-title],[data-name],[data-object-title],[data-object-name],[aria-label],[title],title');for(var i=0;i<nodes.length;i++){var c=resolveCode(readCodeRaw(nodes[i]));if(c)return c;}return'';}
       function codeFor(el){var c=resolveCode(readCodeRaw(el));if(c)return c;c=codeFromDescendant(el);if(c)return c;var p=el&&el.closest?el.closest(objectSelector):null;c=resolveCode(readCodeRaw(p));if(c)return c;return codeFromDescendant(p);}
@@ -984,4 +965,3 @@ add_action('wp_footer', function() {
     </script>
     <?php
 }, 20);
-
