@@ -37,6 +37,7 @@ $rezidencia_lomnica_modules = [
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/image-map-styles.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/image-map-hover-guard.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/header-layout.php',
+    WPMU_PLUGIN_DIR . '/rezidencia-lomnica/legacy-storage-cleanup.php',
 ];
 
 foreach ($rezidencia_lomnica_modules as $rezidencia_lomnica_module) {
