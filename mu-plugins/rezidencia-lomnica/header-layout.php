@@ -32,9 +32,9 @@ add_action('wp_enqueue_scripts', static function () {
   z-index: 999;
   background: linear-gradient(
     180deg,
-    rgba(34, 38, 36, 0.72) 0%,
-    rgba(34, 38, 36, 0.34) 58%,
-    rgba(34, 38, 36, 0) 100%
+    rgba(20, 35, 53, 0.72) 0%,
+    rgba(20, 35, 53, 0.34) 58%,
+    rgba(20, 35, 53, 0) 100%
   );
   transition:
     background 0.4s ease,
@@ -45,7 +45,7 @@ add_action('wp_enqueue_scripts', static function () {
 /* Byty: bez gradientu, hneÄŹ plnĂˇ farba */
 body.rs-is-byty #brx-header .site-header,
 body.rs-is-byty .site-header {
-  background: rgba(34, 38, 36, 0.96) !important;
+  background: rgba(20, 35, 53, 0.96) !important;
 }
 
 .site-header__desktop {
@@ -271,7 +271,7 @@ footer [class*="logo"] a:focus svg {
 #brx-header.scrolling .site-header,
 #brx-header.sticky.scrolling .site-header,
 #brx-header.brx-sticky.scrolling .site-header {
-  background: rgba(34, 38, 36, 0.96) !important;
+  background: rgba(20, 35, 53, 0.96) !important;
   backdrop-filter: blur(14px);
   box-shadow: 0 12px 34px rgba(0, 0, 0, 0.18);
 }
