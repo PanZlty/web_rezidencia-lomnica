@@ -30,38 +30,37 @@ add_action('wp_enqueue_scripts', static function () {
 .site-header {
   width: 100%;
   z-index: 999;
-  background: linear-gradient(
-    180deg,
-    rgba(20, 35, 53, 0.72) 0%,
-    rgba(20, 35, 53, 0.34) 58%,
-    rgba(20, 35, 53, 0) 100%
-  );
-  transition:
-    background 0.4s ease,
-    box-shadow 0.4s ease,
-    backdrop-filter 0.4s ease;
+  background: var(--primary, #142335) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  transition: none !important;
 }
 
 /* Byty: bez gradientu, hneÄŹ plnĂˇ farba */
 body.rs-is-byty #brx-header .site-header,
 body.rs-is-byty .site-header {
-  background: rgba(20, 35, 53, 0.96) !important;
+  background: var(--primary, #142335) !important;
+  background-image: none !important;
 }
 
 .site-header__desktop {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
-  column-gap: clamp(5rem, 6vw, 10rem);
+  column-gap: clamp(1.5rem, 3vw, 4rem);
 }
 
 .site-header__nav-left {
-  justify-self: end;
+  order: 2;
+  margin-left: auto;
+  justify-self: initial;
 }
 
 .site-header__logo {
-  justify-self: center;
+  order: 1;
+  flex: 0 1 auto;
+  justify-self: initial;
 }
 
 #brx-header .site-header__logo,
@@ -181,7 +180,8 @@ footer [class*="logo"] a:focus svg {
 }
 
 .site-header__nav-right {
-  justify-self: start;
+  order: 3;
+  justify-self: initial;
 }
 
 .site-header__mobile {
@@ -191,6 +191,7 @@ footer [class*="logo"] a:focus svg {
 .site-header__nav-left ul,
 .site-header__nav-right ul {
   gap: 3.2rem;
+  justify-content: flex-end;
 }
 
 /* Desktop nav hover/focus/active underline: ÄŤiara sa roztiahne zo stredu do strĂˇn */
@@ -264,6 +265,13 @@ footer [class*="logo"] a:focus svg {
 
   .site-header__mobile {
     display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .site-header__mobile-logo {
+    margin-right: auto;
   }
 }
 
@@ -271,10 +279,34 @@ footer [class*="logo"] a:focus svg {
 #brx-header.scrolling .site-header,
 #brx-header.sticky.scrolling .site-header,
 #brx-header.brx-sticky.scrolling .site-header {
-  background: rgba(20, 35, 53, 0.96) !important;
-  backdrop-filter: blur(14px);
-  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.18);
+  background: var(--primary, #142335) !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  transition: none !important;
 }
 CSS
     );
+
+    $rl_logo_light_url = wp_get_attachment_url(2011);
+
+    if ($rl_logo_light_url) {
+        wp_add_inline_style(
+            'rezidencia-lomnica-header-layout',
+            sprintf(
+                <<<'CSS'
+/* Header logo selected from the Lomnica Media Library assets. */
+#brx-header .site-header__logo img,
+#brx-header .site-header__mobile-logo img,
+#brx-header .brxe-logo img,
+#brx-header .site-logo img,
+#brx-header [class*="logo"] img {
+  content: url("%s") !important;
+}
+CSS,
+                esc_url_raw($rl_logo_light_url)
+            )
+        );
+    }
 }, 100);
+
