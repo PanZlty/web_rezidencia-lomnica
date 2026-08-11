@@ -15,7 +15,7 @@ wp plugin install https://github.com/WordPress/mcp-adapter/releases/latest/downl
 OficiĂˇlny adapter vyĹľaduje WordPress 6.9+ a PHP 7.4+. PredvolenĂ˝ HTTP endpoint je:
 
 ```text
-https://WP-DOMENA/wp-json/mcp/mcp-adapter-default-server
+https://rezidencialomnica.sk/wp-json/mcp/mcp-adapter-default-server
 ```
 
 ### Bricks MCP
@@ -30,7 +30,7 @@ NainĹˇtaluj release pluginu [Bricks MCP](https://github.com/cristianuibar/bric
 Bricks MCP vyĹľaduje WordPress 6.4+, PHP 8.2+ a Bricks 1.6+. Jeho endpoint je:
 
 ```text
-https://WP-DOMENA/wp-json/bricks-mcp/v1/mcp
+https://rezidencialomnica.sk/wp-json/bricks-mcp/v1/mcp
 ```
 
 ## 2. Overenie prĂ­stupu
@@ -43,7 +43,7 @@ Header mĂˇ tvar:
 Authorization: Basic BASE64_ENCODED_CREDENTIALS
 ```
 
-Pred pouĹľitĂ­m treba doplniĹĄ skutoÄŤnĂş domĂ©nu novej WordPress inĹˇtalĂˇcie namiesto `WP-DOMENA`.
+PouĹľĂ­va sa domĂ©na novej WordPress inĹˇtalĂˇcie `rezidencialomnica.sk`.
 
 ## 3. KonfigurĂˇcia Bricks MCP klienta
 
@@ -54,7 +54,7 @@ PrĂ­klad pre Claude Desktop, Cursor alebo inĂ˝ HTTP MCP klient:
   "mcpServers": {
     "bricks-mcp": {
       "type": "http",
-      "url": "https://WP-DOMENA/wp-json/bricks-mcp/v1/mcp",
+      "url": "https://rezidencialomnica.sk/wp-json/bricks-mcp/v1/mcp",
       "headers": {
         "Authorization": "Basic BASE64_ENCODED_CREDENTIALS"
       }
@@ -79,7 +79,7 @@ Pre HTTP pripojenie cez lokĂˇlny proxy proces pouĹľije klient konfigurĂˇci
         "@automattic/mcp-wordpress-remote@latest"
       ],
       "env": {
-        "WP_API_URL": "https://WP-DOMENA/wp-json/mcp/mcp-adapter-default-server",
+        "WP_API_URL": "https://rezidencialomnica.sk/wp-json/mcp/mcp-adapter-default-server",
         "LOG_FILE": "C:/path/to/mcp-adapter.log",
         "WP_API_USERNAME": "WP_APPLICATION_USERNAME",
         "WP_API_PASSWORD": "WP_APPLICATION_PASSWORD"
@@ -93,4 +93,4 @@ Proxy konfigurĂˇcia pouĹľĂ­va pouĹľĂ­vateÄľskĂ© meno a Application
 
 ## 5. PoznĂˇmka ku Codex/ChatGPT
 
-Bricks MCP v aktuĂˇlnej dokumentĂˇcii uvĂˇdza podporu pre Claude Code, Claude Desktop, Cursor a kompatibilnĂ˝ch MCP klientov, nie priamu podporu ChatGPT. Preto je tento dokument urÄŤenĂ˝ na konfigurĂˇciu podporovanĂ©ho externĂ©ho MCP klienta. SamotnĂ© napojenie v tomto pracovnom prostredĂ­ vyĹľaduje URL novej WordPress inĹˇtalĂˇcie a klienta, ktorĂ˝ povoÄľuje vlastnĂ© HTTP MCP servery.
+Bricks MCP v aktuĂˇlnej dokumentĂˇcii uvĂˇdza podporu pre Claude Code, Claude Desktop, Cursor a kompatibilnĂ˝ch MCP klientov, nie priamu podporu ChatGPT. Preto je tento dokument urÄŤenĂ˝ na konfigurĂˇciu podporovanĂ©ho externĂ©ho MCP klienta. Endpointy projektu sĂş overenĂ© na `https://rezidencialomnica.sk`.
