@@ -20,6 +20,7 @@ if (!function_exists('rl_asset_url')) {
 
 $rezidencia_lomnica_modules = [
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/brand-tokens.php',
+    WPMU_PLUGIN_DIR . '/rezidencia-lomnica/brand-assets.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/image-map-shortcodes.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/image-map-list-pills.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/image-map-mobile.php',
@@ -45,3 +46,4 @@ foreach ($rezidencia_lomnica_modules as $rezidencia_lomnica_module) {
         require_once $rezidencia_lomnica_module;
     }
 }
+
