@@ -13,6 +13,7 @@
 4. Stúrovské asset URL boli nahradené rl_asset_url().
 5. Krátke kódy rs_* ostávajú kvôli kompatibilite s Bricks šablónami.
 6. Design tokeny sú lomnické a sústredené v brand-tokens.php.
+7. Skladová logika bola zúžená na atribút bytu; samostatné skladové jednotky a ich statusy sa neaktivujú.
 
 ## Legacy, ktorý sa zámerne neaktivuje
 
@@ -23,4 +24,3 @@
 - .js súbor, ktorý pôvodný FluentSnippets workflow nenasadzoval.
 
 Tieto položky sú zdokumentované ako audit, nie načítané v produkcii.
-
