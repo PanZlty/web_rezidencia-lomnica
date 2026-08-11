@@ -1,30 +1,29 @@
-# Rezidencia Lomnica â€“ Lomnica Mineral
+# Rezidencia Lomnica â€“ Logo colour system
 
 ## Smer
 
-Boutique bytovĂ˝ dom s Ă´smimi bytmi vo VeÄľkej Lomnici potrebuje skĂ´r materiĂˇlovĂş a tichĂş identitu neĹľ rezortnĂş zelenĂş alebo metalickĂ© zlato. SystĂ©m stojĂ­ na vĂˇpennej omietke, travertĂ­ne, grafite, minerĂˇlnej modrosivej a oxidovanej medi.
+FinĂˇlna identita vychĂˇdza priamo z loga Rezidencia Lomnica: nĂˇmornĂ­cka modrĂˇ, taupe, krĂ©movĂˇ a biela. Boutique bytovĂ˝ dom s Ă´smimi bytmi vo VeÄľkej Lomnici tak pĂ´sobĂ­ pokojne, ÄŤisto a prĂ©miovo bez zeleno-zlatej developerskej estetiky.
 
 ## PrimĂˇrne vzorkovnice
 
 | Token | NĂˇzov | HEX | PouĹľitie |
 | --- | --- | --- | --- |
-| `--primary` | MinerĂˇlna modrosivĂˇ | `#556B6D` | odkazy, primĂˇrne ovlĂˇdacie prvky |
-| `--primary-dark` | HlbokĂ˝ bazalt | `#354447` | hover, vĂ˝raznĂ© prvky |
-| `--neutral-dark` | GrafitovĂ˝ ink | `#222624` | header, nadpisy, footer |
-| `--bg-muted` | VĂˇpenec | `#F6F2EA` | hlavnĂ© pozadie |
-| `--surface-stone` | TravertĂ­n | `#E6DED2` | karty, sekcie, deliace plochy |
-| `--sandstone` | PieskovcovĂ˝ detail | `#B8AA99` | ikony, lĂ­nie, sekundĂˇrne prvky |
-| `--tertiary` | OxidovanĂˇ meÄŹ | `#A3654F` | CTA, selected state, malĂ© akcenty |
+| `--primary` | NĂˇmornĂ­cka modrĂˇ | `#142335` | header, odkazy, hlavnĂ© CTA |
+| `--primary-dark` | HlbokĂˇ nĂˇmornĂ­cka | `#0E1928` | hover, overlay, vĂ˝raznĂ© prvky |
+| `--neutral-dark` | NĂˇmornĂ­cka textovĂˇ | `#142335` | nadpisy, footer, kontrast |
+| `--bg-muted` | KrĂ©movĂˇ | `#F7F8EE` | hlavnĂ© pozadie |
+| `--surface-stone` | SvetlĂˇ neutrĂˇlna | `#EBE4DC` | karty, sekcie, deliace plochy |
+| `--sandstone` | Taupe | `#CAAD99` | ikony, lĂ­nie, sekundĂˇrne prvky |
+| `--tertiary` | Logo taupe | `#CAAD99` | hover, selected state, malĂ© akcenty |
 
 ## Pomer plĂ´ch
 
-- 60 % vĂˇpenec a biele plochy,
-- 20 % travertĂ­n a pieskovec,
-- 12 % grafit/bazalt,
-- 6 % minerĂˇlna modrosivĂˇ,
-- 2 % oxidovanĂˇ meÄŹ.
+- 60 % krĂ©movĂˇ a biele plochy,
+- 20 % svetlĂˇ neutrĂˇlna a taupe,
+- 15 % nĂˇmornĂ­cka modrĂˇ,
+- 5 % hlbokĂˇ nĂˇmornĂ­cka.
 
-MeÄŹ sa pouĹľĂ­va Ăşsporne. NemĂˇ vytvĂˇraĹĄ zlatĂ˝ developerskĂ˝ vzhÄľad, ale zvĂ˝razniĹĄ rozhodujĂşce interakcie.
+Taupe sa pouĹľĂ­va Ăşsporne. HlavnĂ© CTA je nĂˇmornĂ­cke s krĂ©movĂ˝m textom; taupe je hover a dekoratĂ­vny akcent. TĂ˝m zostĂˇva zachovanĂ˝ kontrast loga aj prĂ©miovĂ˝ charakter.
 
 ## StavovĂ© farby
 

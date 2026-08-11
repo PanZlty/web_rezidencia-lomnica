@@ -20,10 +20,10 @@ if (!function_exists('rs_imp_design_tokens')) {
         return array(
             'text' => 'var(--text-dark)',
             'image_bg' => 'var(--bg-muted)',
-            'button_bg' => 'var(--tertiary-d-1)',
+            'button_bg' => 'var(--primary)',
             'button_text' => 'var(--white)',
             'button_hover_bg' => 'var(--tertiary)',
-            'button_hover_text' => 'var(--white)',
+            'button_hover_text' => 'var(--neutral-dark)',
             'status' => array(
                 'available' => array(
                     'label' => 'Na predaj',
@@ -484,7 +484,7 @@ add_shortcode('rs_apartment_map_card', function($atts) {
     <div class="rs-map-tooltip rs-map-tooltip--<?php echo esc_attr($status ?: 'unknown'); ?>" style="<?php echo esc_attr($tooltip_style); ?>">
       <?php if ($image) : ?><img class="rs-map-tooltip__image" src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($display_title); ?>"><?php endif; ?>
       <div class="rs-map-tooltip__top">
-        <h3 class="rs-…2534 tokens truncated…,
+        <h3 class="r…2535 tokens truncated…,
                 'typeLabel' => $definition['type_label'],
                 'code' => $code,
                 'title' => get_the_title($post_id),
