@@ -32,9 +32,9 @@ add_action('wp_enqueue_scripts', static function () {
   z-index: 999;
   background: linear-gradient(
     180deg,
-    rgba(13, 28, 23, 0.72) 0%,
-    rgba(13, 28, 23, 0.34) 58%,
-    rgba(13, 28, 23, 0) 100%
+    rgba(32, 42, 47, 0.72) 0%,
+    rgba(32, 42, 47, 0.34) 58%,
+    rgba(32, 42, 47, 0) 100%
   );
   transition:
     background 0.4s ease,
@@ -42,10 +42,10 @@ add_action('wp_enqueue_scripts', static function () {
     backdrop-filter 0.4s ease;
 }
 
-/* Byty: bez gradientu, hneď plná farba */
+/* Byty: bez gradientu, hneÄŹ plnĂˇ farba */
 body.rs-is-byty #brx-header .site-header,
 body.rs-is-byty .site-header {
-  background: rgba(13, 28, 23, 0.96) !important;
+  background: rgba(32, 42, 47, 0.96) !important;
 }
 
 .site-header__desktop {
@@ -193,7 +193,7 @@ footer [class*="logo"] a:focus svg {
   gap: 3.2rem;
 }
 
-/* Desktop nav hover/focus/active underline: čiara sa roztiahne zo stredu do strán */
+/* Desktop nav hover/focus/active underline: ÄŤiara sa roztiahne zo stredu do strĂˇn */
 .site-header__nav-left a,
 .site-header__nav-right a {
   position: relative;
@@ -271,7 +271,7 @@ footer [class*="logo"] a:focus svg {
 #brx-header.scrolling .site-header,
 #brx-header.sticky.scrolling .site-header,
 #brx-header.brx-sticky.scrolling .site-header {
-  background: rgba(13, 28, 23, 0.96) !important;
+  background: rgba(32, 42, 47, 0.96) !important;
   backdrop-filter: blur(14px);
   box-shadow: 0 12px 34px rgba(0, 0, 0, 0.18);
 }

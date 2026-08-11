@@ -29,7 +29,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
   border-radius: var(--radius-l, 2rem);
   background: var(--white, #ffffff);
   border: 1px solid rgba(255, 255, 255, 0.28);
-  color: var(--heading, #152621);
+  color: var(--heading, #202a2f);
   box-shadow: 0 2.4rem 6rem rgba(0, 0, 0, 0.16);
   font-family: inherit;
   font-weight: 400;
@@ -49,7 +49,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
 }
 
 .construction-progress__title {
-  color: var(--heading, #152621);
+  color: var(--heading, #202a2f);
   font-family: "Cormorant Garamond", serif;
   font-size: clamp(2.6rem, 3vw, 4rem);
   line-height: 1.05;
@@ -58,7 +58,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
 
 .construction-progress__label {
   margin-top: 0.7rem;
-  color: var(--text, #4f4f4f);
+  color: var(--text, #596469);
   font-size: var(--text-s, 1.5rem);
   line-height: 1.45;
   font-weight: 500;
@@ -70,7 +70,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
   padding: 0;
   border-radius: 0;
   background: transparent;
-  color: var(--primary, #152621);
+  color: var(--primary, #4e707a);
   text-align: right;
   white-space: nowrap;
 }
@@ -86,7 +86,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
 .construction-progress__days span {
   display: block;
   margin-top: 0.45rem;
-  color: var(--muted, #6b6258);
+  color: var(--muted, #7d8788);
   font-size: 1.25rem;
   line-height: 1.2;
   font-weight: 600;
@@ -106,7 +106,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
   height: 100%;
   min-width: 0.8rem;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--tertiary-d-2, #9a947d), var(--tertiary, #d8cfaf));
+  background: linear-gradient(90deg, var(--tertiary-d-2, #7f4637), var(--tertiary, #b86b50));
   transition: width 0.6s ease;
 }
 
@@ -115,7 +115,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
   justify-content: space-between;
   gap: 1.5rem;
   margin-top: 1.2rem;
-  color: var(--muted, #6b6258);
+  color: var(--muted, #7d8788);
   font-size: 1.3rem;
   line-height: 1.35;
   font-weight: 600;
@@ -189,11 +189,11 @@ if (!function_exists('rs_render_termin_vystavby_shortcode')) {
         $atts = shortcode_atts([
             'start' => '2025-01-01',
             'end'   => '2026-12-31',
-            'title' => 'Termín výstavby',
-            'label' => 'Predpokladané ukončenie výstavby a odovzdanie bytov',
+            'title' => 'TermĂ­n vĂ˝stavby',
+            'label' => 'PredpokladanĂ© ukonÄŤenie vĂ˝stavby a odovzdanie bytov',
         ], $atts, 'termin_vystavby');
 
-        $atts['label'] = 'Predpokladané ukončenie výstavby a odovzdanie bytov';
+        $atts['label'] = 'PredpokladanĂ© ukonÄŤenie vĂ˝stavby a odovzdanie bytov';
 
         $start_raw = sanitize_text_field((string) $atts['start']);
         $end_raw   = sanitize_text_field((string) $atts['end']);
@@ -232,22 +232,22 @@ if (!function_exists('rs_render_termin_vystavby_shortcode')) {
                 <div class="construction-progress__days">
                     <?php if ($days_left > 0) : ?>
                         <strong><?php echo esc_html($days_left); ?></strong>
-                        <span>dní zostáva</span>
+                        <span>dnĂ­ zostĂˇva</span>
                     <?php else : ?>
                         <strong>0</strong>
-                        <span>termín dosiahnutý</span>
+                        <span>termĂ­n dosiahnutĂ˝</span>
                     <?php endif; ?>
                 </div>
             </div>
 
-            <div class="construction-progress__bar" aria-label="Priebeh výstavby <?php echo esc_attr($progress); ?> %">
+            <div class="construction-progress__bar" aria-label="Priebeh vĂ˝stavby <?php echo esc_attr($progress); ?> %">
                 <div class="construction-progress__fill" style="width: <?php echo esc_attr($progress); ?>%;"></div>
             </div>
 
             <div class="construction-progress__bottom">
-                <span><span class="construction-progress__bottom-label">Začiatok:</span> <span class="construction-progress__bottom-value"><?php echo esc_html($start_formatted); ?></span></span>
+                <span><span class="construction-progress__bottom-label">ZaÄŤiatok:</span> <span class="construction-progress__bottom-value"><?php echo esc_html($start_formatted); ?></span></span>
                 <span><?php echo esc_html($progress); ?> %</span>
-                <span><span class="construction-progress__bottom-label">Ukončenie:</span> <span class="construction-progress__bottom-value"><?php echo esc_html($end_formatted); ?></span></span>
+                <span><span class="construction-progress__bottom-label">UkonÄŤenie:</span> <span class="construction-progress__bottom-value"><?php echo esc_html($end_formatted); ?></span></span>
             </div>
         </div>
         </div>
@@ -257,4 +257,3 @@ if (!function_exists('rs_render_termin_vystavby_shortcode')) {
 }
 
 add_shortcode('termin_vystavby', 'rs_render_termin_vystavby_shortcode');
-
