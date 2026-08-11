@@ -29,7 +29,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
   border-radius: var(--radius-l, 2rem);
   background: var(--white, #ffffff);
   border: 1px solid rgba(255, 255, 255, 0.28);
-  color: var(--heading, #222624);
+  color: var(--heading, #142335);
   box-shadow: 0 2.4rem 6rem rgba(0, 0, 0, 0.16);
   font-family: inherit;
   font-weight: 400;
@@ -49,7 +49,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
 }
 
 .construction-progress__title {
-  color: var(--heading, #222624);
+  color: var(--heading, #142335);
   font-family: "Cormorant Garamond", serif;
   font-size: clamp(2.6rem, 3vw, 4rem);
   line-height: 1.05;
@@ -70,7 +70,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
   padding: 0;
   border-radius: 0;
   background: transparent;
-  color: var(--primary, #556b6d);
+  color: var(--primary, #142335);
   text-align: right;
   white-space: nowrap;
 }
@@ -106,7 +106,7 @@ if (!function_exists('rs_termin_vystavby_css')) {
   height: 100%;
   min-width: 0.8rem;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--tertiary-d-2, #6a3a2f), var(--tertiary, #a3654f));
+  background: linear-gradient(90deg, var(--tertiary-d-2, #876956), var(--tertiary, #caad99));
   transition: width 0.6s ease;
 }
 
