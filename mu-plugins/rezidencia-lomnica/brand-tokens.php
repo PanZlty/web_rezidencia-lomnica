@@ -17,24 +17,24 @@ add_action('wp_enqueue_scripts', static function () {
 
     wp_add_inline_style('rezidencia-lomnica-brand-tokens', <<<'CSS'
 :root {
-  --primary: #4e707a;
-  --primary-dark: #2e414a;
-  --tertiary: #b86b50;
-  --tertiary-d-1: #9a5641;
-  --tertiary-d-2: #7f4637;
-  --neutral-dark: #202a2f;
+  --primary: #556b6d;
+  --primary-dark: #354447;
+  --tertiary: #a3654f;
+  --tertiary-d-1: #854d3c;
+  --tertiary-d-2: #6a3a2f;
+  --neutral-dark: #222624;
   --white: #fff;
-  --text-dark: #2b3438;
-  --heading: #202a2f;
-  --text: #596469;
-  --muted: #7d8788;
-  --bg-muted: #f3f1eb;
-  --surface-stone: #d9d9d2;
-  --sandstone: #b9aa91;
-  --status-available: #2f7d72;
-  --status-reserved: #b97828;
-  --status-sold: #a94f50;
-  --icon-accent: #b9aa91;
+  --text-dark: #303432;
+  --heading: #222624;
+  --text: #626865;
+  --muted: #8c8c83;
+  --bg-muted: #f6f2ea;
+  --surface-stone: #e6ded2;
+  --sandstone: #b8aa99;
+  --status-available: #3c776b;
+  --status-reserved: #a8762f;
+  --status-sold: #9d5252;
+  --icon-accent: #b8aa99;
   --radius-l: 2rem;
 }
 
