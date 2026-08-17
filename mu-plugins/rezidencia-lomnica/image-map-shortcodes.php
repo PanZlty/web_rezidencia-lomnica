@@ -5,14 +5,14 @@ if (!defined('ABSPATH')) {
 }
 
 /* =========================================
-   REZIDENCIA Ĺ TĂšROVĂ â€“ IMAGE MAP NASTAVENIA
-   Tu menĂ­Ĺˇ farby tooltipu, pillov, ikon, tlaÄŤidla
-   a default farbu shapes podÄľa statusu bytu.
+   REZIDENCIA ŠTÚROVÁ – IMAGE MAP NASTAVENIA
+   Tu meníš farby tooltipu, pillov, ikon, tlačidla
+   a default farbu shapes podľa statusu bytu.
 
-   Hover farby, dashed stroke a mouseover sprĂˇvanie
+   Hover farby, dashed stroke a mouseover správanie
    nastavuj iba v Image Map Pro UI.
 
-   CSS premennĂ© pĂ­Ĺˇ bez fallbacku napr.:
+   CSS premenné píš bez fallbacku napr.:
    'pill_bg' => 'var(--status-sold)'
 ========================================= */
 if (!function_exists('rs_imp_design_tokens')) {
@@ -20,46 +20,46 @@ if (!function_exists('rs_imp_design_tokens')) {
         return array(
             'text' => 'var(--text-dark)',
             'image_bg' => 'var(--bg-muted)',
-            'button_bg' => 'var(--primary)',
+            'button_bg' => 'var(--tertiary-d-1)',
             'button_text' => 'var(--white)',
             'button_hover_bg' => 'var(--tertiary)',
-            'button_hover_text' => 'var(--neutral-dark)',
+            'button_hover_text' => 'var(--white)',
             'status' => array(
                 'available' => array(
                     'label' => 'Na predaj',
                     'pill_bg' => 'var(--status-available)',
                     'pill_text' => 'var(--white)',
-                    'icon' => 'var(--icon-accent)',
+                    'icon' => 'var(--icon-gold)',
                     'shape_fill' => 'var(--status-available)',
                     'shape_stroke' => 'var(--status-available)',
                     'shape_fill_opacity' => 0.26,
                     'shape_stroke_opacity' => 0.9,
                 ),
                 'reserved' => array(
-                    'label' => 'RezervovanĂ˝',
+                    'label' => 'Rezervovaný',
                     'pill_bg' => 'var(--status-reserved)',
                     'pill_text' => 'var(--white)',
-                    'icon' => 'var(--icon-accent)',
+                    'icon' => 'var(--icon-gold)',
                     'shape_fill' => 'var(--status-reserved)',
                     'shape_stroke' => 'var(--status-reserved)',
                     'shape_fill_opacity' => 0.28,
                     'shape_stroke_opacity' => 0.95,
                 ),
                 'sold' => array(
-                    'label' => 'PredanĂ˝',
+                    'label' => 'Predaný',
                     'pill_bg' => 'var(--status-sold)',
                     'pill_text' => 'var(--white)',
-                    'icon' => 'var(--icon-accent)',
+                    'icon' => 'var(--icon-gold)',
                     'shape_fill' => 'var(--status-sold)',
                     'shape_stroke' => 'var(--status-sold)',
                     'shape_fill_opacity' => 0.24,
                     'shape_stroke_opacity' => 0.85,
                 ),
                 'unknown' => array(
-                    'label' => 'Status neuvedenĂ˝',
+                    'label' => 'Status neuvedený',
                     'pill_bg' => 'var(--primary)',
                     'pill_text' => 'var(--white)',
-                    'icon' => 'var(--icon-accent)',
+                    'icon' => 'var(--icon-gold)',
                     'shape_fill' => 'var(--primary)',
                     'shape_stroke' => 'var(--primary)',
                     'shape_fill_opacity' => 0.22,
@@ -245,7 +245,7 @@ if (!function_exists('rs_imp_unit_id_by_code')) {
 
             $posts = get_posts(array(
                 'post_type' => $post_types,
-                'post_status' => 'publish',
+                'post_status' => array('publish', 'draft', 'pending', 'private'),
                 'posts_per_page' => 1,
                 'fields' => 'ids',
                 'meta_query' => array(array('key' => $definition['code_field'], 'value' => $code_candidates, 'compare' => 'IN')),
@@ -295,13 +295,13 @@ if (!function_exists('rs_imp_unit_status_label')) {
         $labels = array(
             'apartment' => array(
                 'available' => 'Na predaj',
-                'reserved' => 'RezervovanĂ˝',
-                'sold' => 'PredanĂ˝',
+                'reserved' => 'Rezervovaný',
+                'sold' => 'Predaný',
             ),
             'parking' => array(
-                'available' => 'DostupnĂ©',
-                'reserved' => 'RezervovanĂ©',
-                'sold' => 'PredanĂ©',
+                'available' => 'Dostupné',
+                'reserved' => 'Rezervované',
+                'sold' => 'Predané',
             ),
         );
 
@@ -341,7 +341,7 @@ if (!function_exists('rs_imp_price_text')) {
         $value = str_replace(',', '.', $value);
         if ($value === '' || !is_numeric($value)) { return ''; }
 
-        return number_format((float) $value, 0, ',', ' ') . ' â‚¬';
+        return number_format((float) $value, 0, ',', ' ') . ' €';
     }
 }
 
@@ -358,11 +358,11 @@ if (!function_exists('rs_imp_room_text')) {
         if ($rooms === '' || $rooms === null || is_array($rooms) || is_object($rooms)) { return ''; }
 
         $rooms = (string) $rooms;
-        if ($rooms === '0') { return 'Ĺ tĂşdio'; }
-        if ($rooms === '1') { return '1-izbovĂ˝'; }
-        if (in_array($rooms, array('2', '3', '4'), true)) { return $rooms . '-izbovĂ˝'; }
+        if ($rooms === '0') { return 'Štúdio'; }
+        if ($rooms === '1') { return '1-izbový'; }
+        if (in_array($rooms, array('2', '3', '4'), true)) { return $rooms . '-izbový'; }
 
-        return $rooms . '-izbovĂ˝';
+        return $rooms . '-izbový';
     }
 }
 
@@ -421,10 +421,10 @@ add_shortcode('rs_apartment_map_card', function($atts) {
     $status_token = rs_imp_status_token($status);
     $price = rs_imp_price_text(rs_imp_field('price', $post_id));
     $rooms = rs_imp_room_text(rs_imp_field('rooms', $post_id));
-    $area_total = rs_imp_number_text(rs_imp_field('area_total', $post_id), 'mÂ˛');
-    $balcony_area = rs_imp_number_text(rs_imp_field('balcony_area', $post_id), 'mÂ˛');
+    $area_total = rs_imp_number_text(rs_imp_field('area_total', $post_id), 'm²');
+    $balcony_area = rs_imp_number_text(rs_imp_field('balcony_area', $post_id), 'm²');
     $cellar_code = sanitize_text_field((string) rs_imp_field('cellar_code', $post_id));
-    $cellar_area = rs_imp_number_text(rs_imp_field('cellar_area', $post_id), 'mÂ˛');
+    $cellar_area = rs_imp_number_text(rs_imp_field('cellar_area', $post_id), 'm²');
     $image = get_the_post_thumbnail_url($post_id, 'large');
     $url = get_permalink($post_id);
     $display_title = rs_imp_display_title($post_id, rs_imp_field('apartment_code', $post_id));
@@ -484,7 +484,176 @@ add_shortcode('rs_apartment_map_card', function($atts) {
     <div class="rs-map-tooltip rs-map-tooltip--<?php echo esc_attr($status ?: 'unknown'); ?>" style="<?php echo esc_attr($tooltip_style); ?>">
       <?php if ($image) : ?><img class="rs-map-tooltip__image" src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($display_title); ?>"><?php endif; ?>
       <div class="rs-map-tooltip__top">
-        <h3 class="r…2535 tokens truncated…,
+        <h3 class="rs-map-tooltip__title"><?php echo esc_html($display_title); ?></h3>
+        <span class="rs-map-tooltip__pill"><?php echo esc_html($status_token['label']); ?></span>
+      </div>
+      <?php if ($price) : ?><div class="rs-map-tooltip__price"><?php echo esc_html($price); ?></div><?php endif; ?>
+      <?php if (!empty($meta_items)) : ?>
+        <ul class="rs-map-tooltip__meta">
+          <?php foreach ($meta_items as $meta_item) : ?>
+            <li class="rs-map-tooltip__meta-item"><span class="rs-map-tooltip__meta-icon" style="--rs-map-icon:url('<?php echo esc_url($meta_item['icon']); ?>')"></span><span><?php echo esc_html($meta_item['value']); ?></span></li>
+          <?php endforeach; ?>
+        </ul>
+      <?php endif; ?>
+      <a class="rs-map-tooltip__button" href="<?php echo esc_url($url); ?>">Zobraziť detail</a>
+    </div>
+    <?php
+    return trim(ob_get_clean());
+});
+
+add_shortcode('rs_map_unit_card', function($atts) {
+    $atts = shortcode_atts(array('code' => '', 'type' => ''), $atts, 'rs_map_unit_card');
+    $unit = rs_imp_resolve_unit($atts['code'], $atts['type']);
+    if (empty($unit['id']) || empty($unit['definition'])) { return ''; }
+
+    $post_id = absint($unit['id']);
+    $unit_type = sanitize_key((string) $unit['type']);
+    $definition = $unit['definition'];
+
+    if ($unit_type === 'apartment') {
+        $code = rs_imp_field($definition['code_field'], $post_id);
+        return do_shortcode('[rs_apartment_map_card code="' . esc_attr((string) $code) . '"]');
+    }
+
+    $tokens = rs_imp_design_tokens();
+    $status = rs_imp_normalize_status(rs_imp_field($definition['status_field'], $post_id));
+    $status_token = rs_imp_status_token($status);
+    $status_token['label'] = rs_imp_unit_status_label($status, $unit_type);
+
+    $code = rs_imp_field($definition['code_field'], $post_id);
+    $price = rs_imp_price_text(rs_imp_field($definition['price_field'], $post_id));
+    $display_title = rs_imp_display_title($post_id, $code);
+    $area = !empty($definition['area_field']) ? rs_imp_number_text(rs_imp_field($definition['area_field'], $post_id), 'm²') : '';
+
+    $meta_items = array();
+    if ($code) { $meta_items[] = array('label' => 'Kód', 'value' => $code); }
+    if ($area) { $meta_items[] = array('label' => 'Výmera', 'value' => $area); }
+    if (!empty($definition['type_label'])) { $meta_items[] = array('label' => 'Typ', 'value' => $definition['type_label']); }
+
+    $tooltip_vars = array(
+        '--rs-map-text' => $tokens['text'],
+        '--rs-map-image-bg' => $tokens['image_bg'],
+        '--rs-map-icon-color' => $status_token['icon'],
+        '--rs-map-pill-bg' => $status_token['pill_bg'],
+        '--rs-map-pill-text' => $status_token['pill_text'],
+        '--rs-map-button-bg' => $tokens['button_bg'],
+        '--rs-map-button-text' => $tokens['button_text'],
+        '--rs-map-button-hover-bg' => $tokens['button_hover_bg'],
+        '--rs-map-button-hover-text' => $tokens['button_hover_text'],
+    );
+    $tooltip_style = '';
+    foreach ($tooltip_vars as $name => $value) {
+        $tooltip_style .= $name . ':' . $value . ';';
+    }
+
+    ob_start();
+    ?>
+    <style>
+      .rs-map-tooltip{width:100%;max-width:360px;color:var(--rs-map-text);font-family:inherit}
+      .rs-map-tooltip *{box-sizing:border-box}
+      .rs-map-tooltip__top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 0 22px}
+      .rs-map-tooltip__title{margin:0;color:var(--rs-map-text);font-size:28px;font-weight:650;line-height:1.05}
+      .rs-map-tooltip__pill{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:0 13px;border-radius:999px;background:var(--rs-map-pill-bg) !important;color:var(--rs-map-pill-text) !important;font-size:13px;font-weight:700;line-height:1;white-space:nowrap;flex-shrink:0}
+      .rs-map-tooltip__price{display:flex;align-items:flex-start;margin:0 0 24px;color:var(--rs-map-text);font-size:36px;font-weight:750;line-height:1.05;letter-spacing:-.03em}
+      .rs-map-tooltip__meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:0;padding:0;list-style:none}
+      .rs-map-tooltip__meta-item{display:flex;flex-direction:column;gap:4px;min-width:0;color:var(--rs-map-text);font-size:14px;font-weight:700;line-height:1.1;white-space:nowrap}
+      .rs-map-tooltip__meta-label{font-size:11px;font-weight:600;line-height:1;text-transform:uppercase;letter-spacing:.04em;opacity:.55}
+    </style>
+    <div class="rs-map-tooltip rs-map-tooltip--<?php echo esc_attr($unit_type); ?> rs-map-tooltip--<?php echo esc_attr($status ?: 'unknown'); ?>" style="<?php echo esc_attr($tooltip_style); ?>">
+      <div class="rs-map-tooltip__top">
+        <h3 class="rs-map-tooltip__title"><?php echo esc_html($display_title); ?></h3>
+        <span class="rs-map-tooltip__pill"><?php echo esc_html($status_token['label']); ?></span>
+      </div>
+      <?php if ($price) : ?><div class="rs-map-tooltip__price"><?php echo esc_html($price); ?></div><?php endif; ?>
+      <?php if (!empty($meta_items)) : ?>
+        <ul class="rs-map-tooltip__meta">
+          <?php foreach ($meta_items as $meta_item) : ?>
+            <li class="rs-map-tooltip__meta-item"><span class="rs-map-tooltip__meta-label"><?php echo esc_html($meta_item['label']); ?></span><span><?php echo esc_html($meta_item['value']); ?></span></li>
+          <?php endforeach; ?>
+        </ul>
+      <?php endif; ?>
+    </div>
+    <?php
+    return trim(ob_get_clean());
+});
+
+add_shortcode('rs_apartment_codes', function() {
+    $posts = get_posts(array('post_type' => 'byty', 'post_status' => array('publish', 'draft', 'pending', 'private'), 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC'));
+    if (empty($posts)) { return '<p>Nenašli sa žiadne byty v CPT byty.</p>'; }
+
+    $html = '<table class="rs-apartment-codes" style="width:100%;border-collapse:collapse;font-size:14px;"><thead><tr><th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">Názov</th><th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">apartment_code</th><th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">price</th><th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">status</th></tr></thead><tbody>';
+    foreach ($posts as $item) {
+        $code = rs_imp_field('apartment_code', $item->ID);
+        $price = rs_imp_field('price', $item->ID);
+        $status = rs_imp_field('status', $item->ID);
+        $html .= '<tr><td style="border-bottom:1px solid #eee;padding:8px;">' . esc_html(get_the_title($item->ID)) . '</td><td style="border-bottom:1px solid #eee;padding:8px;"><code>' . esc_html((string) $code) . '</code></td><td style="border-bottom:1px solid #eee;padding:8px;">' . esc_html(rs_imp_price_text($price)) . '</td><td style="border-bottom:1px solid #eee;padding:8px;"><code>' . esc_html((string) $status) . '</code></td></tr>';
+    }
+    $html .= '</tbody></table>';
+
+    return $html;
+});
+
+add_shortcode('rs_map_unit_codes', function() {
+    $rows = array();
+    foreach (rs_imp_unit_definitions() as $unit_type => $definition) {
+        $post_types = rs_imp_existing_post_types($definition['post_types']);
+        if (empty($post_types)) { continue; }
+
+        $posts = get_posts(array(
+            'post_type' => $post_types,
+            'post_status' => array('publish', 'draft', 'pending', 'private'),
+            'posts_per_page' => -1,
+            'orderby' => 'title',
+            'order' => 'ASC',
+        ));
+
+        foreach ($posts as $item) {
+            $rows[] = array(
+                'type' => $unit_type,
+                'title' => get_the_title($item->ID),
+                'code' => rs_imp_field($definition['code_field'], $item->ID),
+                'price' => rs_imp_field($definition['price_field'], $item->ID),
+                'status' => rs_imp_field($definition['status_field'], $item->ID),
+            );
+        }
+    }
+
+    if (empty($rows)) { return '<p>Nenašli sa žiadne Image Map jednotky.</p>'; }
+
+    $html = '<table class="rs-map-unit-codes" style="width:100%;border-collapse:collapse;font-size:14px;"><thead><tr><th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">Typ</th><th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">Názov</th><th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">Kód</th><th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">price</th><th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">status</th></tr></thead><tbody>';
+    foreach ($rows as $row) {
+        $html .= '<tr><td style="border-bottom:1px solid #eee;padding:8px;"><code>' . esc_html($row['type']) . '</code></td><td style="border-bottom:1px solid #eee;padding:8px;">' . esc_html($row['title']) . '</td><td style="border-bottom:1px solid #eee;padding:8px;"><code>' . esc_html((string) $row['code']) . '</code></td><td style="border-bottom:1px solid #eee;padding:8px;">' . esc_html(rs_imp_price_text($row['price'])) . '</td><td style="border-bottom:1px solid #eee;padding:8px;"><code>' . esc_html((string) $row['status']) . '</code></td></tr>';
+    }
+    $html .= '</tbody></table>';
+
+    return $html;
+});
+
+add_action('wp_footer', function() {
+    if (is_admin()) { return; }
+
+    $map_units = array();
+    foreach (rs_imp_unit_definitions() as $unit_type => $definition) {
+        $post_types = rs_imp_existing_post_types($definition['post_types']);
+        if (empty($post_types)) { continue; }
+
+        $posts = get_posts(array(
+            'post_type' => $post_types,
+            'post_status' => array('publish', 'draft', 'pending', 'private'),
+            'posts_per_page' => -1,
+            'fields' => 'ids',
+        ));
+
+        foreach ($posts as $post_id) {
+            $code = sanitize_text_field((string) rs_imp_field($definition['code_field'], $post_id));
+            if ($code === '' || isset($map_units[$code])) { continue; }
+
+            $status = rs_imp_normalize_status(rs_imp_field($definition['status_field'], $post_id));
+            $status = isset(rs_imp_design_tokens()['status'][$status]) ? $status : 'unknown';
+
+            $map_unit = array(
+                'id' => absint($post_id),
+                'type' => $unit_type,
                 'typeLabel' => $definition['type_label'],
                 'code' => $code,
                 'title' => get_the_title($post_id),
@@ -513,7 +682,6 @@ add_shortcode('rs_apartment_map_card', function($atts) {
       var statusClasses = ['rs-imp-status-available','rs-imp-status-reserved','rs-imp-status-sold','rs-imp-status-unknown'];
       var hoveredCodes = new Set();
       var mapRootSelector = '.imp-wrap,.imp-main,.imp-canvas-wrap,.imp-ui,.imp-object-menu,.imp-object-list,.imp-tooltips-container';
-      var logoSelector = '#brx-header,#brx-footer,header,footer,.logo-wrapper,.graphic-logo,.brxe-logo,.site-logo,[class*="logo"]';
 
       function n(v){return String(v||'').trim();}
       function allData(){return window.RS_IMP_MAP_UNITS||window.RS_IMP_APARTMENTS||{};}
@@ -521,7 +689,7 @@ add_shortcode('rs_apartment_map_card', function($atts) {
       function isShape(el){if(!el||!el.tagName||isSoldHatch(el))return false;var t=el.tagName.toLowerCase();return ['path','polygon','rect','ellipse','circle'].indexOf(t)>-1;}
       function shapes(el){if(!el)return[];if(isShape(el))return[el];return el.querySelectorAll?Array.prototype.slice.call(el.querySelectorAll('path,polygon,rect,ellipse,circle')).filter(function(shape){return !isSoldHatch(shape);}) :[];}
       function readCodeRaw(el){if(!el)return'';var a=['data-rs-map-unit-code','data-rs-apartment-code','data-title','data-name','data-object-title','data-object-name','aria-label','title'];for(var i=0;i<a.length;i++){var v=el.getAttribute&&el.getAttribute(a[i]);if(v)return n(v);}var title=el.querySelector&&el.querySelector('title');if(title&&title.textContent)return n(title.textContent);return n(el.textContent);}
-      function normalizeHumanLabel(value){value=n(value);var m=value.match(/^byt\s*-?\s*(\d+)$/i);if(m){return 'B-'+String(parseInt(m[1],10)).padStart(2,'0');}m=value.match(/^apartm[aĂˇ]n\s*-?\s*([a-z])$/i);if(m){return 'AP-'+m[1].toUpperCase();}m=value.match(/^(?:parkovacie\s+miesto|parking|miesto)\s*-?\s*(\d+)$/i);if(m){return 'P'+String(parseInt(m[1],10)).padStart(2,'0');}return value;}
+      function normalizeHumanLabel(value){value=n(value);var m=value.match(/^byt\s*-?\s*(\d+)$/i);if(m){return 'B-'+String(parseInt(m[1],10)).padStart(2,'0');}m=value.match(/^apartm[aá]n\s*-?\s*([a-z])$/i);if(m){return 'AP-'+m[1].toUpperCase();}m=value.match(/^(?:parkovacie\s+miesto|parking|miesto)\s*-?\s*(\d+)$/i);if(m){return 'P'+String(parseInt(m[1],10)).padStart(2,'0');}return value;}
       function codeCandidates(value){value=normalizeHumanLabel(value);if(!value)return[];var out=[value];var m=value.match(/^([PG])\s*-?\s*(\d+)$/i);if(m){var num=String(parseInt(m[2],10));var padded=num.padStart(2,'0');out.push(padded,num,m[1].toUpperCase()+padded);}else if(/^\d+$/.test(value)){var raw=String(parseInt(value,10));var pad=raw.padStart(2,'0');out.push(raw,pad,'P'+pad,'G'+pad);}return out.filter(function(item,index){return item&&out.indexOf(item)===index;});}
       function resolveCode(value){var candidates=codeCandidates(value);if(!candidates.length)return'';var items=allData();for(var i=0;i<candidates.length;i++){if(items[candidates[i]])return candidates[i];}var lower=candidates.map(function(item){return item.toLowerCase();});for(var code in items){if(!Object.prototype.hasOwnProperty.call(items,code))continue;var item=items[code]||{};if(lower.indexOf(n(item.title).toLowerCase())>-1)return code;if(lower.indexOf(n(item.code).toLowerCase())>-1)return code;}return'';}
       function codeFromDescendant(el){if(!el||!el.querySelectorAll)return'';var nodes=el.querySelectorAll('[data-title],[data-name],[data-object-title],[data-object-name],[aria-label],[title],title');for(var i=0;i<nodes.length;i++){var c=resolveCode(readCodeRaw(nodes[i]));if(c)return c;}return'';}
@@ -532,33 +700,6 @@ add_shortcode('rs_apartment_map_card', function($atts) {
       function clearNode(el){while(el&&el.firstChild){el.removeChild(el.firstChild);}}
       function svgDefs(svg){var ns='http://www.w3.org/2000/svg';var defs=svg.querySelector('defs')||document.createElementNS(ns,'defs');if(!defs.parentNode){svg.insertBefore(defs,svg.firstChild);}return defs;}
       function cssPaint(value,context){value=n(value);var m=value.match(/^var\((--[^),\s]+)/);if(m&&window.getComputedStyle){var doc=(context&&context.ownerDocument)||document;var source=(context&&context.nodeType===1)?context:doc.documentElement;var resolved=window.getComputedStyle(source).getPropertyValue(m[1]).trim()||window.getComputedStyle(doc.documentElement).getPropertyValue(m[1]).trim();if(resolved)return resolved;}return value;}
-      function isLogoArea(el){return !!(el&&el.closest&&el.closest(logoSelector));}
-      function logoMedia(root){var out=[];if(!root)return out;if(root.matches&&root.matches('img,svg'))out.push(root);if(root.querySelectorAll){out=out.concat(Array.prototype.slice.call(root.querySelectorAll('img,svg')));}return out.filter(function(item,index){return item&&out.indexOf(item)===index;});}
-      function validLogoPaint(value){value=n(value);return value&&value!=='none'&&value!=='transparent'&&value!=='rgba(0, 0, 0, 0)'&&value!=='currentColor';}
-      function preserveLogoPaint(el,prop){
-        if(!el||!el.style)return;
-        var key='data-rs-logo-'+prop;
-        var saved=el.getAttribute(key);
-        if(!saved){
-          var inline=el.style.getPropertyValue(prop);
-          var attr=el.getAttribute(prop);
-          var computed=window.getComputedStyle?window.getComputedStyle(el).getPropertyValue(prop):'';
-          saved=validLogoPaint(inline)?inline:(validLogoPaint(attr)?attr:(validLogoPaint(computed)?computed:''));
-          if(saved){el.setAttribute(key,saved);}
-        }
-        if(saved){el.style.setProperty(prop,saved,'important');}
-      }
-      function protectLogoColors(root){
-        var roots=[];
-        if(root&&root.nodeType===1){roots=[root.closest&&root.closest(logoSelector)||root];}
-        else{roots=Array.prototype.slice.call(document.querySelectorAll(logoSelector));}
-        roots.forEach(function(item){
-          logoMedia(item).forEach(function(media){media.style.setProperty('filter','none','important');media.style.setProperty('opacity','1','important');media.style.setProperty('mix-blend-mode','normal','important');});
-          if(item.matches&&item.matches('svg')){preserveLogoPaint(item,'fill');preserveLogoPaint(item,'stroke');}
-          var nodes=item.querySelectorAll?Array.prototype.slice.call(item.querySelectorAll('svg,path,polygon,rect,circle,ellipse,line,polyline')):[];
-          nodes.forEach(function(node){preserveLogoPaint(node,'fill');preserveLogoPaint(node,'stroke');});
-        });
-      }
       function soldPattern(shape,item){
         if(!item||!item.colors)return'';
         return cssPaint(item.colors.stroke||item.colors.fill,shape);
@@ -758,10 +899,6 @@ add_shortcode('rs_apartment_map_card', function($atts) {
 
       document.addEventListener('DOMContentLoaded',run);
       window.addEventListener('load',run);
-      protectLogoColors();
-      ['pointerover','mouseover','pointerdown','click','focusin'].forEach(function(type){
-        document.addEventListener(type,function(e){if(isLogoArea(e.target)){protectLogoColors(e.target);}},true);
-      });
       window.setInterval(function(){if(window.RS_IMP_MAP_UNITS||window.RS_IMP_APARTMENTS){paintAll();}},2500);
       if(typeof MutationObserver!=='undefined'){
         var moTimer=null;
@@ -769,14 +906,12 @@ add_shortcode('rs_apartment_map_card', function($atts) {
       }
       document.addEventListener('click',function(){setTimeout(paintAll,120);setTimeout(paintAll,600);});
       document.addEventListener('pointerover',function(e){
-        if(isLogoArea(e.target))return;
         var list=e.target.closest&&e.target.closest(listSelector);
         if(list){enterListHover(codeForListItem(list));return;}
         var code=codeFor(objectFor(e.target)||e.target);
         if(code){hoveredCodes.add(code);hideSoldOverlaysForHover(code);}
       },true);
       document.addEventListener('pointerout',function(e){
-        if(isLogoArea(e.target))return;
         var list=e.target.closest&&e.target.closest(listSelector);
         if(list){
           var code=codeForListItem(list);
@@ -796,3 +931,4 @@ add_shortcode('rs_apartment_map_card', function($atts) {
     </script>
     <?php
 }, 20);
+
