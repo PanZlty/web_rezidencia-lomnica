@@ -52,7 +52,7 @@ Technické hodnoty sú rs available, rs reserved, rs sold.
 - byt: Na predaj / Rezervovaný / Predaný,
 - parkovanie: Dostupné / Rezervované / Predané.
 
-Farby a CSS tokeny sú v brand-tokens.php; dizajn sa dá meniť bez zásahu do dátovej logiky.
+Farby a CSS tokeny sú definované výhradne v Bricks (farebná paleta a globálne premenné); dizajn sa dá meniť bez zásahu do dátovej logiky. MU-pluginy nesmú definovať vlastný `:root` s farebnými premennými, aby neprepisovali Bricks paletu.
 
 ## 5. Image Map kontrakt
 

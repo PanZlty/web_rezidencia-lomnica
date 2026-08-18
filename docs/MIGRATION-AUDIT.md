@@ -12,7 +12,7 @@
 3. CSS/JS sa vkladajú cez wp_enqueue_scripts, wp_head alebo wp_footer.
 4. Stúrovské asset URL boli nahradené rl_asset_url().
 5. Krátke kódy rs_* ostávajú kvôli kompatibilite s Bricks šablónami.
-6. Design tokeny sú lomnické a sústredené v brand-tokens.php.
+6. Design tokeny sú definované v Bricks (farebná paleta, globálne premenné); mu-plugins/rezidencia-lomnica/brand-tokens.php bol odstránený, keďže duplikoval a čiastočne prepisoval tie isté CSS premenné neskorším `:root` blokom (priorita 110), čo spôsobovalo nekonzistentné odtiene medzi Bricks paletou a jej odvodenými shade/tint variantami.
 7. Skladová logika bola zúžená na atribút bytu; samostatné skladové jednotky a ich statusy sa neaktivujú.
 
 ## Legacy, ktorý sa zámerne neaktivuje
