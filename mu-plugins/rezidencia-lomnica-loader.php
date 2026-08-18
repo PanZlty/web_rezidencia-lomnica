@@ -30,22 +30,30 @@ if (!function_exists('rl_asset_attachment_url')) {
      * Ikonky sa nahrávajú do štandardnej mediatéky (dátumový priečinok
      * /uploads/rok/mesiac/), nie do /uploads/rezidencia-lomnica/, preto sa
      * URL dohľadáva podľa názvu súboru priamo v mediatéke.
+     *
+     * Hľadá sa cez _wp_attached_file (cesta relatívna k uploads), nie cez guid.
+     * V guid ostala po migrácii zo Štúrovej stará doména, takže ikonky
+     * prenesené z pôvodného webu ukazovali na rezidenciasturova.sk.
      */
     function rl_asset_attachment_url($filename)
     {
-        $cache_key = 'rl_asset_url_' . md5($filename);
+        $cache_key = 'rl_asset_url_v2_' . md5($filename);
         $cached = get_transient($cache_key);
         if ($cached !== false) {
             return $cached;
         }
 
         global $wpdb;
-        $guid = $wpdb->get_var($wpdb->prepare(
-            "SELECT guid FROM {$wpdb->posts} WHERE post_type = 'attachment' AND guid LIKE %s ORDER BY ID DESC LIMIT 1",
-            '%' . $wpdb->esc_like($filename)
+        $attachment_id = $wpdb->get_var($wpdb->prepare(
+            "SELECT post_id FROM {$wpdb->postmeta}
+             WHERE meta_key = '_wp_attached_file'
+               AND (meta_value = %s OR meta_value LIKE %s)
+             ORDER BY post_id DESC LIMIT 1",
+            $filename,
+            '%/' . $wpdb->esc_like($filename)
         ));
 
-        $url = $guid ? esc_url_raw($guid) : '';
+        $url = $attachment_id ? (string) wp_get_attachment_url((int) $attachment_id) : '';
         set_transient($cache_key, $url, DAY_IN_SECONDS);
 
         return $url;

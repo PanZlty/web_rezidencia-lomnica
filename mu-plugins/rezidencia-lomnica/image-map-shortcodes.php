@@ -375,7 +375,10 @@ if (!function_exists('rs_imp_price_display')) {
 if (!function_exists('rs_imp_number_text')) {
     function rs_imp_number_text($value, $suffix = '') {
         if ($value === '' || $value === null || is_array($value) || is_object($value)) { return ''; }
-        $value = str_replace('.', ',', (string) $value);
+        // Nečíselné hodnoty (napr. "-" vyplnené v ACF) sa nezobrazujú,
+        // inak by v tooltipe vzniklo "Sklad - m²".
+        if (!is_numeric(str_replace(',', '.', trim((string) $value)))) { return ''; }
+        $value = str_replace('.', ',', trim((string) $value));
         return trim($value . ' ' . $suffix);
     }
 }
@@ -452,8 +455,6 @@ add_shortcode('rs_apartment_map_card', function($atts) {
     $price = rs_imp_price_display(rs_imp_field('price', $post_id), $status);
     $rooms = rs_imp_room_text(rs_imp_field('rooms', $post_id));
     $area_total = rs_imp_number_text(rs_imp_field('area_total', $post_id), 'm²');
-    $balcony_area = rs_imp_number_text(rs_imp_field('balcony_area', $post_id), 'm²');
-    $cellar_code = sanitize_text_field((string) rs_imp_field('cellar_code', $post_id));
     $cellar_area = rs_imp_number_text(rs_imp_field('cellar_area', $post_id), 'm²');
     $image = get_the_post_thumbnail_url($post_id, 'large');
     $url = get_permalink($post_id);
@@ -468,16 +469,12 @@ add_shortcode('rs_apartment_map_card', function($atts) {
         }
     }
 
+    // Tooltip ukazuje iba dispozíciu, výmeru a sklad. Balkón/terasa sa
+    // zámerne nezobrazuje – zostáva len v detaile bytu.
     $meta_items = array();
     if ($rooms) { $meta_items[] = array('icon' => rl_asset_url('dispozicia.svg'), 'value' => $rooms); }
     if ($area_total) { $meta_items[] = array('icon' => rl_asset_url('vymera.svg'), 'value' => $area_total); }
-    if ($balcony_area) { $meta_items[] = array('icon' => rl_asset_url('balkon.svg'), 'value' => $balcony_area); }
-    if ($cellar_code || $cellar_area) {
-        $meta_items[] = array(
-            'icon' => rl_asset_url('sklad.svg'),
-            'value' => $cellar_area ? 'Sklad ' . $cellar_area : 'Sklad v cene',
-        );
-    }
+    if ($cellar_area) { $meta_items[] = array('icon' => rl_asset_url('sklad.svg'), 'value' => 'Sklad ' . $cellar_area); }
 
     $tooltip_vars = array(
         '--rs-map-text' => $tokens['text'],
