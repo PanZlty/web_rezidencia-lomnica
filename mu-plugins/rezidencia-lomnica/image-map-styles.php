@@ -92,8 +92,7 @@ add_action('wp_enqueue_scripts', static function () {
            > div               – BIELA KARTA, tu sedi padding aj radius
              .rs-map-tooltip   – samotny obsah
      Biela karta ma teda sirku (width - 30), obsah (width - 30 - 2*padding).
-     Pri 380px: karta 350px, obsah 290px – vacsia karta aj vacsie okraje,
-     a "Sklad X m2" sa zmesti do stlpca (88px vs 76px).
+     Pri 380px a okrajoch 24px: karta 350px, obsah 302px.
      IMP si tooltip meria az pri zobrazeni, takze pozicovanie sedi. */
   width: 380px !important;
   max-width: calc(100vw - 28px) !important;
@@ -116,7 +115,7 @@ add_action('wp_enqueue_scripts', static function () {
   border-radius: 24px !important;
   overflow: hidden !important;
   box-shadow: none !important;
-  padding: 30px !important;
+  padding: 24px !important;
 }
 
 .imp-tooltip img {
