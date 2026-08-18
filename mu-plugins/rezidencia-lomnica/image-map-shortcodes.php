@@ -498,17 +498,17 @@ add_shortcode('rs_apartment_map_card', function($atts) {
     ob_start();
     ?>
     <style>
-      .rs-map-tooltip{width:100%;max-width:360px;color:var(--rs-map-text);font-family:inherit}
+      .rs-map-tooltip{width:100%;max-width:320px;color:var(--rs-map-text);font-family:inherit}
       .rs-map-tooltip *{box-sizing:border-box}
-      .rs-map-tooltip__image{display:block;width:100%;height:190px;object-fit:cover;border-radius:18px;margin:0 0 26px;background:var(--rs-map-image-bg)}
-      .rs-map-tooltip__top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 0 22px}
-      .rs-map-tooltip__title{margin:0;color:var(--rs-map-text);font-size:28px;font-weight:650;line-height:1.05}
-      .rs-map-tooltip__pill{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:0 13px;border-radius:999px;background:var(--rs-map-pill-bg) !important;color:var(--rs-map-pill-text) !important;font-size:13px;font-weight:700;line-height:1;white-space:nowrap;flex-shrink:0}
-      .rs-map-tooltip__price{display:flex;align-items:flex-start;margin:0 0 24px;color:var(--rs-map-text);font-size:36px;font-weight:750;line-height:1.05;letter-spacing:-.03em}
-      .rs-map-tooltip__meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:0 0 30px;padding:0;list-style:none}
-      .rs-map-tooltip__meta-item{display:flex;align-items:center;justify-content:flex-start;gap:9px;min-width:0;color:var(--rs-map-text);font-size:14px;font-weight:700;line-height:1.1;white-space:nowrap}
-      .rs-map-tooltip__meta-icon{width:21px;height:21px;flex:0 0 21px;background-color:var(--rs-map-icon-color);-webkit-mask:var(--rs-map-icon) center/contain no-repeat;mask:var(--rs-map-icon) center/contain no-repeat}
-      .rs-map-tooltip__button{display:flex;align-items:center;justify-content:center;min-height:50px;width:100%;border-radius:999px;background:var(--rs-map-button-bg) !important;color:var(--rs-map-button-text) !important;font-size:16px;font-weight:750;text-decoration:none;transition:background .2s,color .2s,transform .2s}
+      .rs-map-tooltip__image{display:block;width:100%;height:170px;object-fit:cover;border-radius:16px;margin:0 0 18px;background:var(--rs-map-image-bg)}
+      .rs-map-tooltip__top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 14px}
+      .rs-map-tooltip__title{margin:0;color:var(--rs-map-text);font-size:20px;font-weight:650;line-height:1.15}
+      .rs-map-tooltip__pill{display:inline-flex;align-items:center;justify-content:center;min-height:26px;padding:0 12px;border-radius:999px;background:var(--rs-map-pill-bg) !important;color:var(--rs-map-pill-text) !important;font-size:12px;font-weight:700;line-height:1;white-space:nowrap;flex-shrink:0}
+      .rs-map-tooltip__price{display:flex;align-items:flex-start;margin:0 0 16px;color:var(--rs-map-text);font-size:26px;font-weight:750;line-height:1.1;letter-spacing:-.02em}
+      .rs-map-tooltip__meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 20px;padding:0;list-style:none}
+      .rs-map-tooltip__meta-item{display:flex;align-items:center;justify-content:flex-start;gap:7px;min-width:0;color:var(--rs-map-text);font-size:13px;font-weight:700;line-height:1.1;white-space:nowrap}
+      .rs-map-tooltip__meta-icon{width:18px;height:18px;flex:0 0 18px;background-color:var(--rs-map-icon-color);-webkit-mask:var(--rs-map-icon) center/contain no-repeat;mask:var(--rs-map-icon) center/contain no-repeat}
+      .rs-map-tooltip__button{display:flex;align-items:center;justify-content:center;min-height:44px;width:100%;border-radius:999px;background:var(--rs-map-button-bg) !important;color:var(--rs-map-button-text) !important;font-size:14px;font-weight:750;text-decoration:none;transition:background .2s,color .2s,transform .2s}
       .rs-map-tooltip__button:hover{background:var(--rs-map-button-hover-bg) !important;color:var(--rs-map-button-hover-text) !important;transform:translateY(-1px)}
     </style>
     <div class="rs-map-tooltip rs-map-tooltip--<?php echo esc_attr($status ?: 'unknown'); ?>" style="<?php echo esc_attr($tooltip_style); ?>">
@@ -579,15 +579,15 @@ add_shortcode('rs_map_unit_card', function($atts) {
     ob_start();
     ?>
     <style>
-      .rs-map-tooltip{width:100%;max-width:360px;color:var(--rs-map-text);font-family:inherit}
+      .rs-map-tooltip{width:100%;max-width:320px;color:var(--rs-map-text);font-family:inherit}
       .rs-map-tooltip *{box-sizing:border-box}
-      .rs-map-tooltip__top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 0 22px}
-      .rs-map-tooltip__title{margin:0;color:var(--rs-map-text);font-size:28px;font-weight:650;line-height:1.05}
-      .rs-map-tooltip__pill{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:0 13px;border-radius:999px;background:var(--rs-map-pill-bg) !important;color:var(--rs-map-pill-text) !important;font-size:13px;font-weight:700;line-height:1;white-space:nowrap;flex-shrink:0}
-      .rs-map-tooltip__price{display:flex;align-items:flex-start;margin:0 0 24px;color:var(--rs-map-text);font-size:36px;font-weight:750;line-height:1.05;letter-spacing:-.03em}
-      .rs-map-tooltip__meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:0;padding:0;list-style:none}
-      .rs-map-tooltip__meta-item{display:flex;flex-direction:column;gap:4px;min-width:0;color:var(--rs-map-text);font-size:14px;font-weight:700;line-height:1.1;white-space:nowrap}
-      .rs-map-tooltip__meta-label{font-size:11px;font-weight:600;line-height:1;text-transform:uppercase;letter-spacing:.04em;opacity:.55}
+      .rs-map-tooltip__top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 14px}
+      .rs-map-tooltip__title{margin:0;color:var(--rs-map-text);font-size:20px;font-weight:650;line-height:1.15}
+      .rs-map-tooltip__pill{display:inline-flex;align-items:center;justify-content:center;min-height:26px;padding:0 12px;border-radius:999px;background:var(--rs-map-pill-bg) !important;color:var(--rs-map-pill-text) !important;font-size:12px;font-weight:700;line-height:1;white-space:nowrap;flex-shrink:0}
+      .rs-map-tooltip__price{display:flex;align-items:flex-start;margin:0 0 16px;color:var(--rs-map-text);font-size:26px;font-weight:750;line-height:1.1;letter-spacing:-.02em}
+      .rs-map-tooltip__meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0;padding:0;list-style:none}
+      .rs-map-tooltip__meta-item{display:flex;flex-direction:column;gap:4px;min-width:0;color:var(--rs-map-text);font-size:13px;font-weight:700;line-height:1.1;white-space:nowrap}
+      .rs-map-tooltip__meta-label{font-size:10px;font-weight:600;line-height:1;text-transform:uppercase;letter-spacing:.04em;opacity:.55}
     </style>
     <div class="rs-map-tooltip rs-map-tooltip--<?php echo esc_attr($unit_type); ?> rs-map-tooltip--<?php echo esc_attr($status ?: 'unknown'); ?>" style="<?php echo esc_attr($tooltip_style); ?>">
       <div class="rs-map-tooltip__top">

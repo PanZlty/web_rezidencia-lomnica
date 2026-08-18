@@ -627,51 +627,51 @@ add_action('wp_enqueue_scripts', static function () {
   }
 
   .rs-map-tooltip__image {
-    height: 168px !important;
-    margin-bottom: 20px !important;
+    height: 150px !important;
+    margin-bottom: 14px !important;
   }
 
   .rs-map-tooltip__top {
-    gap: 12px !important;
-    margin-bottom: 18px !important;
+    gap: 10px !important;
+    margin-bottom: 12px !important;
   }
 
   .rs-map-tooltip__title {
-    font-size: clamp(24px, 7vw, 32px) !important;
+    font-size: clamp(17px, 5vw, 20px) !important;
   }
 
   .rs-map-tooltip__price {
-    font-size: clamp(32px, 9vw, 42px) !important;
-    margin-bottom: 22px !important;
+    font-size: clamp(21px, 6vw, 26px) !important;
+    margin-bottom: 14px !important;
   }
 
   .rs-map-tooltip__meta {
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 12px !important;
+    gap: 10px !important;
     align-items: start !important;
-    margin-bottom: 28px !important;
+    margin-bottom: 18px !important;
   }
 
   .rs-map-tooltip__meta-item {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: flex-start !important;
-    gap: 8px !important;
+    gap: 6px !important;
     text-align: center !important;
     white-space: normal !important;
-    font-size: 13px !important;
+    font-size: 12px !important;
     line-height: 1.15 !important;
   }
 
   .rs-map-tooltip__meta-icon {
-    width: 24px !important;
-    height: 24px !important;
-    flex-basis: 24px !important;
+    width: 18px !important;
+    height: 18px !important;
+    flex-basis: 18px !important;
   }
 
   .rs-map-tooltip__button {
-    min-height: 56px !important;
+    min-height: 44px !important;
   }
 }
 CSS
