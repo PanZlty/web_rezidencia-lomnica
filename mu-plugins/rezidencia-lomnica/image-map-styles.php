@@ -86,6 +86,12 @@ add_action('wp_enqueue_scripts', static function () {
   background: transparent !important;
   box-shadow: none !important;
   filter: drop-shadow(0 28px 60px rgba(0,0,0,0.22)) drop-shadow(0 10px 24px rgba(0,0,0,0.14)) !important;
+  /* Image Map Pro ma na objektoch pevnu sirku 300px a padding 15px.
+     Okraje karty su 2x vacsie (30px), preto sa sirka dvihla na 330px,
+     aby obsah ostal na povodnych 270px a meta riadok sa nezalomil.
+     IMP si tooltip meria az pri zobrazeni, takze pozicovanie sedi. */
+  width: 330px !important;
+  max-width: calc(100vw - 28px) !important;
 }
 
 .imp-tooltip-content,
@@ -94,6 +100,8 @@ add_action('wp_enqueue_scripts', static function () {
 .imp-tooltip .squares-container {
   background: transparent !important;
   box-shadow: none !important;
+  /* Padding drzi iba biela karta nizsie, aby sa hodnoty nescitavali. */
+  padding: 0 !important;
 }
 
 .imp-tooltip .squares-element,
@@ -103,6 +111,7 @@ add_action('wp_enqueue_scripts', static function () {
   border-radius: 24px !important;
   overflow: hidden !important;
   box-shadow: none !important;
+  padding: 30px !important;
 }
 
 .imp-tooltip img {
