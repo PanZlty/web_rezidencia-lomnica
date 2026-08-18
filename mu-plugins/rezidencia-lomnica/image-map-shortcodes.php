@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 /* =========================================
-   REZIDENCIA ŠTÚROVÁ – IMAGE MAP NASTAVENIA
+   REZIDENCIA LOMNICA – IMAGE MAP NASTAVENIA
    Tu meníš farby tooltipu, pillov, ikon, tlačidla
    a default farbu shapes podľa statusu bytu.
 
