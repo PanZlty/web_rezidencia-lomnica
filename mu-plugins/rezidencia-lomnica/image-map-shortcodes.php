@@ -502,7 +502,10 @@ add_shortcode('rs_apartment_map_card', function($atts) {
       .rs-map-tooltip__title{margin:0;color:var(--rs-map-text);font-size:20px;font-weight:650;line-height:1.15}
       .rs-map-tooltip__pill{display:inline-flex;align-items:center;justify-content:center;min-height:26px;padding:0 12px;border-radius:999px;background:var(--rs-map-pill-bg) !important;color:var(--rs-map-pill-text) !important;font-size:12px;font-weight:700;line-height:1;white-space:nowrap;flex-shrink:0}
       .rs-map-tooltip__price{display:flex;align-items:flex-start;margin:0 0 16px;color:var(--rs-map-text);font-size:26px;font-weight:750;line-height:1.1;letter-spacing:-.02em}
-      .rs-map-tooltip__meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 20px;padding:0;list-style:none}
+      /* Flex, nie pevne 3 stlpce: "Sklad 2,4 m²" je sirsie nez tretina
+         karty a v rigidnej mriezke pretekalo von. Takto si kazda polozka
+         vezme vlastnu sirku a pri nedostatku miesta sa riadok zalomi. */
+      .rs-map-tooltip__meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin:0 0 20px;padding:0;list-style:none}
       .rs-map-tooltip__meta-item{display:flex;align-items:center;justify-content:flex-start;gap:7px;min-width:0;color:var(--rs-map-text);font-size:13px;font-weight:700;line-height:1.1;white-space:nowrap}
       .rs-map-tooltip__meta-icon{width:18px;height:18px;flex:0 0 18px;background-color:var(--rs-map-icon-color);-webkit-mask:var(--rs-map-icon) center/contain no-repeat;mask:var(--rs-map-icon) center/contain no-repeat}
       .rs-map-tooltip__button{display:flex;align-items:center;justify-content:center;min-height:44px;width:100%;border-radius:999px;background:var(--rs-map-button-bg) !important;color:var(--rs-map-button-text) !important;font-size:14px;font-weight:750;text-decoration:none;transition:background .2s,color .2s,transform .2s}
