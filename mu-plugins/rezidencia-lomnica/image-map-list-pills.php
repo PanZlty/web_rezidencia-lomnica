@@ -36,20 +36,20 @@ add_action('wp_footer', function () {
         white-space: nowrap !important;
         text-transform: none !important;
         letter-spacing: 0 !important;
-        color: var(--white) !important;
+        color: var(--white, #ffffff) !important;
         flex-shrink: 0 !important;
       }
 
       .rs-imp-list-pill--available {
-        background: var(--status-available) !important;
+        background: var(--status-available, #2e7d32) !important;
       }
 
       .rs-imp-list-pill--reserved {
-        background: var(--status-reserved) !important;
+        background: var(--status-reserved, #f59e0b) !important;
       }
 
       .rs-imp-list-pill--sold {
-        background: var(--status-sold) !important;
+        background: var(--status-sold, #d32f2f) !important;
       }
     </style>
 

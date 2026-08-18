@@ -12,8 +12,11 @@ if (!defined('ABSPATH')) {
    Hover farby, dashed stroke a mouseover správanie
    nastavuj iba v Image Map Pro UI.
 
-   CSS premenné píš bez fallbacku napr.:
-   'pill_bg' => 'var(--status-sold)'
+   Farby statusov definuje Bricks (globálne premenné
+   --status-available / --status-reserved / --status-sold).
+   Hex za čiarkou je iba fallback pre prípad, že premenná
+   v Bricks chýba – neprepisuje ju:
+   'pill_bg' => 'var(--status-sold, #d32f2f)'
 ========================================= */
 if (!function_exists('rs_imp_design_tokens')) {
     function rs_imp_design_tokens() {
@@ -27,31 +30,31 @@ if (!function_exists('rs_imp_design_tokens')) {
             'status' => array(
                 'available' => array(
                     'label' => 'Na predaj',
-                    'pill_bg' => 'var(--status-available)',
+                    'pill_bg' => 'var(--status-available, #2e7d32)',
                     'pill_text' => 'var(--white)',
                     'icon' => 'var(--icon-gold)',
-                    'shape_fill' => 'var(--status-available)',
-                    'shape_stroke' => 'var(--status-available)',
+                    'shape_fill' => 'var(--status-available, #2e7d32)',
+                    'shape_stroke' => 'var(--status-available, #2e7d32)',
                     'shape_fill_opacity' => 0.26,
                     'shape_stroke_opacity' => 0.9,
                 ),
                 'reserved' => array(
                     'label' => 'Rezervovaný',
-                    'pill_bg' => 'var(--status-reserved)',
+                    'pill_bg' => 'var(--status-reserved, #f59e0b)',
                     'pill_text' => 'var(--white)',
                     'icon' => 'var(--icon-gold)',
-                    'shape_fill' => 'var(--status-reserved)',
-                    'shape_stroke' => 'var(--status-reserved)',
+                    'shape_fill' => 'var(--status-reserved, #f59e0b)',
+                    'shape_stroke' => 'var(--status-reserved, #f59e0b)',
                     'shape_fill_opacity' => 0.28,
                     'shape_stroke_opacity' => 0.95,
                 ),
                 'sold' => array(
                     'label' => 'Predaný',
-                    'pill_bg' => 'var(--status-sold)',
+                    'pill_bg' => 'var(--status-sold, #d32f2f)',
                     'pill_text' => 'var(--white)',
                     'icon' => 'var(--icon-gold)',
-                    'shape_fill' => 'var(--status-sold)',
-                    'shape_stroke' => 'var(--status-sold)',
+                    'shape_fill' => 'var(--status-sold, #d32f2f)',
+                    'shape_stroke' => 'var(--status-sold, #d32f2f)',
                     'shape_fill_opacity' => 0.24,
                     'shape_stroke_opacity' => 0.85,
                 ),
@@ -85,8 +88,9 @@ if (!function_exists('rs_imp_normalize_status')) {
             $status = remove_accents($status);
         }
         $status = sanitize_key(str_replace(' ', '-', $status));
+        // Musí ostať zhodné s rs_gsheets_normalize_status() v google-sheets-sync.php.
         $aliases = array(
-            'available' => array('available', 'na-predaj', 'na_predaj', 'dostupne', 'dostupny', 'volne', 'volny', 'free'),
+            'available' => array('available', 'na-predaj', 'na_predaj', 'dostupne', 'dostupny', 'dostupna', 'volne', 'volny', 'volna', 'free'),
             'reserved' => array('reserved', 'rezervovane', 'rezervovany', 'rezervovana'),
             'sold' => array('sold', 'predane', 'predany', 'predana'),
         );
@@ -345,6 +349,29 @@ if (!function_exists('rs_imp_price_text')) {
     }
 }
 
+/**
+ * Cena sa na fronte zobrazuje iba pri statuse "available" (dostupný / na predaj).
+ * Pri rezervovanom, predanom aj neznámom statuse vracia placeholder "-".
+ * Rovnaké pravidlo platí pre byty aj parkovanie.
+ */
+if (!function_exists('rs_imp_price_placeholder')) {
+    function rs_imp_price_placeholder() {
+        return apply_filters('rezidencia_lomnica_price_placeholder', '-');
+    }
+}
+
+if (!function_exists('rs_imp_price_display')) {
+    function rs_imp_price_display($price, $status) {
+        if (rs_imp_normalize_status($status) !== 'available') {
+            return rs_imp_price_placeholder();
+        }
+
+        $text = rs_imp_price_text($price);
+
+        return $text === '' ? rs_imp_price_placeholder() : $text;
+    }
+}
+
 if (!function_exists('rs_imp_number_text')) {
     function rs_imp_number_text($value, $suffix = '') {
         if ($value === '' || $value === null || is_array($value) || is_object($value)) { return ''; }
@@ -390,7 +417,10 @@ add_shortcode('rs_apartment_price', function($atts) {
     $post_id = rs_imp_resolve_apartment_id($atts['code']);
     if (!$post_id) { return ''; }
 
-    return esc_html(rs_imp_price_text(rs_imp_field('price', $post_id)));
+    return esc_html(rs_imp_price_display(
+        rs_imp_field('price', $post_id),
+        rs_imp_field('status', $post_id)
+    ));
 });
 
 add_shortcode('rs_apartment_context', function($atts, $content = null) {
@@ -419,7 +449,7 @@ add_shortcode('rs_apartment_map_card', function($atts) {
     $tokens = rs_imp_design_tokens();
     $status = rs_imp_normalize_status(rs_imp_field('status', $post_id));
     $status_token = rs_imp_status_token($status);
-    $price = rs_imp_price_text(rs_imp_field('price', $post_id));
+    $price = rs_imp_price_display(rs_imp_field('price', $post_id), $status);
     $rooms = rs_imp_room_text(rs_imp_field('rooms', $post_id));
     $area_total = rs_imp_number_text(rs_imp_field('area_total', $post_id), 'm²');
     $balcony_area = rs_imp_number_text(rs_imp_field('balcony_area', $post_id), 'm²');
@@ -521,7 +551,7 @@ add_shortcode('rs_map_unit_card', function($atts) {
     $status_token['label'] = rs_imp_unit_status_label($status, $unit_type);
 
     $code = rs_imp_field($definition['code_field'], $post_id);
-    $price = rs_imp_price_text(rs_imp_field($definition['price_field'], $post_id));
+    $price = rs_imp_price_display(rs_imp_field($definition['price_field'], $post_id), $status);
     $display_title = rs_imp_display_title($post_id, $code);
     $area = !empty($definition['area_field']) ? rs_imp_number_text(rs_imp_field($definition['area_field'], $post_id), 'm²') : '';
 
@@ -658,7 +688,7 @@ add_action('wp_footer', function() {
                 'code' => $code,
                 'title' => get_the_title($post_id),
                 'status' => $status,
-                'price' => rs_imp_price_text(rs_imp_field($definition['price_field'], $post_id)),
+                'price' => rs_imp_price_display(rs_imp_field($definition['price_field'], $post_id), $status),
                 'colors' => rs_imp_status_colors($status),
             );
 
@@ -699,7 +729,22 @@ add_action('wp_footer', function() {
       function svgFor(shape){if(!shape)return null;return shape.ownerSVGElement||(shape.tagName&&shape.tagName.toLowerCase()==='svg'?shape:null);}
       function clearNode(el){while(el&&el.firstChild){el.removeChild(el.firstChild);}}
       function svgDefs(svg){var ns='http://www.w3.org/2000/svg';var defs=svg.querySelector('defs')||document.createElementNS(ns,'defs');if(!defs.parentNode){svg.insertBefore(defs,svg.firstChild);}return defs;}
-      function cssPaint(value,context){value=n(value);var m=value.match(/^var\((--[^),\s]+)/);if(m&&window.getComputedStyle){var doc=(context&&context.ownerDocument)||document;var source=(context&&context.nodeType===1)?context:doc.documentElement;var resolved=window.getComputedStyle(source).getPropertyValue(m[1]).trim()||window.getComputedStyle(doc.documentElement).getPropertyValue(m[1]).trim();if(resolved)return resolved;}return value;}
+      // SVG prezentačné atribúty (fill/stroke) nevedia vyhodnotiť var(), preto
+      // premennú rozbaľujeme v JS. Ak ju Bricks nedefinuje, použije sa hex
+      // fallback zapísaný za čiarkou v rs_imp_design_tokens().
+      function cssPaint(value,context){
+        value=n(value);
+        var m=value.match(/^var\(\s*(--[^),\s]+)\s*(?:,\s*([^)]+))?\)$/);
+        if(!m)return value;
+        var fallback=n(m[2]);
+        if(window.getComputedStyle){
+          var doc=(context&&context.ownerDocument)||document;
+          var source=(context&&context.nodeType===1)?context:doc.documentElement;
+          var resolved=n(window.getComputedStyle(source).getPropertyValue(m[1]))||n(window.getComputedStyle(doc.documentElement).getPropertyValue(m[1]));
+          if(resolved)return resolved;
+        }
+        return fallback||value;
+      }
       function soldPattern(shape,item){
         if(!item||!item.colors)return'';
         return cssPaint(item.colors.stroke||item.colors.fill,shape);

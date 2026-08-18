@@ -52,7 +52,37 @@ Technické hodnoty sú rs available, rs reserved, rs sold.
 - byt: Na predaj / Rezervovaný / Predaný,
 - parkovanie: Dostupné / Rezervované / Predané.
 
-Farby a CSS tokeny sú definované výhradne v Bricks (farebná paleta a globálne premenné); dizajn sa dá meniť bez zásahu do dátovej logiky. MU-pluginy nesmú definovať vlastný `:root` s farebnými premennými, aby neprepisovali Bricks paletu.
+Farby a CSS tokeny sú definované výhradne v Bricks (farebná paleta a globálne premenné `--status-available`, `--status-reserved`, `--status-sold`); dizajn sa dá meniť bez zásahu do dátovej logiky. MU-pluginy nesmú definovať vlastný `:root` s farebnými premennými, aby neprepisovali Bricks paletu. Moduly používajú tvar `var(--status-sold, #d32f2f)` – hex za čiarkou je iba záchrana pre prípad, že premenná v Bricks chýba, Bricks paletu neprepisuje. SVG tvary v Image Mape nevedia vyhodnotiť `var()` v atribúte `fill`, preto premennú rozbaľuje `cssPaint()` v JS.
+
+### Pravidlo pre cenu
+
+Cena sa na fronte zobrazuje **iba pri statuse `available`**. Pri `reserved`, `sold` aj neznámom statuse sa zobrazí placeholder `-`. Rovnaké pravidlo platí, ak je status `available`, ale cena nie je vyplnená.
+
+Pravidlo je centralizované v `rs_imp_price_display($price, $status)` v `image-map-shortcodes.php` a používajú ho `[rs_apartment_price]`, tooltip bytu, tooltip parkovania aj `window.RS_IMP_MAP_UNITS`. Placeholder sa dá zmeniť filtrom `rezidencia_lomnica_price_placeholder`. Nové miesta, ktoré vypisujú cenu, musia volať `rs_imp_price_display()`, nie `rs_imp_price_text()`.
+
+## 4a. Google Sheets sync
+
+Zdroj: tabuľka `RS_GSHEETS_SPREADSHEET_ID`, hárok `Hárok1`. Beží cez WP-Cron každých 15 minút (`rs_gsheets_sync_hook`), bez API kľúča cez verejný gviz endpoint.
+
+| Stĺpec | Obsah | ACF pole |
+|---|---|---|
+| A | kód jednotky (AP-01, P01…) | rs apartment_code / parking_number |
+| B | úžitková plocha v m² | rs area_total |
+| C | terasa / balkón v m² | rs balcony_area |
+| D | cena | rs price / parking_price |
+| E | status | rs status / parking_status |
+
+Rozhoduje **poradie stĺpcov**, nie text v hlavičke – prvý riadok sa preskakuje. Celú mapu drží `rs_gsheets_columns()`; poradie aj nové stĺpce sa menia iba tam (alebo filtrom `rezidencia_lomnica_gsheets_columns`). Roly sú `code`, `price`, `status` a `number` (číslo do ACF poľa uvedeného v `field`).
+
+Stĺpec statusu má v Sheets podmienené formátovanie – celá bunka zelená / oranžová / červená podľa Dostupný / Rezervovaný / Predaný, rovnaké odtiene ako pilly na webe.
+
+- Kód v stĺpci `id` sa páruje cez `rs_imp_unit_id_by_code()`, takže sync funguje pre byty aj parkovanie.
+- Tabuľka je zdroj pravdy: **prázdna bunka hodnotu v ACF vymaže**, ale iba ak má daný stĺpec aspoň jednu vyplnenú bunku. Úplne prázdny stĺpec sa berie ako „zatiaľ sa nepoužíva“ a ACF sa nedotkne, takže pridanie novej hlavičky nič nezmaže. Vypnuteľné filtrom `rezidencia_lomnica_gsheets_clear_empty`, ktorý dostáva názov poľa.
+- Plochy znesú zápis `62,5`, `62.5`, `62,5 m²` aj `62.5 m2`; jednotka sa odstráni pred parsovaním.
+- Nerozpoznaný status sa zámerne **neprepíše**, iba zaznamená, aby sa byt nepreklopil omylom.
+- Zapisuje sa iba skutočná zmena; po zmene sa volá purge page cache a akcia `rezidencia_lomnica_units_synced`.
+- Stav a manuálne spustenie: Nastavenia → Google Sheets sync, alebo `wp rs-gsheets sync`.
+- WP-Cron je závislý od návštevnosti. Pri `DISABLE_WP_CRON` alebo nízkej návštevnosti musí `wp-cron.php` volať serverový cron, inak 15-minútový interval neplatí.
 
 ## 5. Image Map kontrakt
 
