@@ -1,0 +1,102 @@
+[
+    {
+        "key": "group_rl_contact",
+        "title": "Kontaktné údaje",
+        "fields": [
+            {
+                "key": "field_rl_contact_tab_general",
+                "label": "Všeobecné",
+                "name": "",
+                "type": "tab",
+                "placement": "top"
+            },
+            {
+                "key": "field_rl_contact_phone",
+                "label": "Telefón",
+                "name": "contact_phone",
+                "type": "text",
+                "instructions": "Zapíš v tvare +421 900 123 456.",
+                "placeholder": "+421 900 123 456"
+            },
+            {
+                "key": "field_rl_contact_email",
+                "label": "E-mail",
+                "name": "contact_email",
+                "type": "email",
+                "placeholder": "info@rezidencialomnica.sk"
+            },
+            {
+                "key": "field_rl_contact_address",
+                "label": "Adresa",
+                "name": "contact_address",
+                "type": "textarea",
+                "rows": 3,
+                "new_lines": "br"
+            },
+            {
+                "key": "field_rl_contact_company",
+                "label": "Názov spoločnosti",
+                "name": "contact_company",
+                "type": "text"
+            },
+            {
+                "key": "field_rl_contact_tab_agent",
+                "label": "Maklér",
+                "name": "",
+                "type": "tab",
+                "placement": "top"
+            },
+            {
+                "key": "field_rl_agent_name",
+                "label": "Meno a priezvisko",
+                "name": "agent_name",
+                "type": "text"
+            },
+            {
+                "key": "field_rl_agent_role",
+                "label": "Pozícia",
+                "name": "agent_role",
+                "type": "text",
+                "placeholder": "Realitný maklér"
+            },
+            {
+                "key": "field_rl_agent_phone",
+                "label": "Telefón makléra",
+                "name": "agent_phone",
+                "type": "text",
+                "instructions": "Ak ostane prázdne, na webe treba použiť všeobecný telefón."
+            },
+            {
+                "key": "field_rl_agent_email",
+                "label": "E-mail makléra",
+                "name": "agent_email",
+                "type": "email",
+                "instructions": "Ak ostane prázdne, na webe treba použiť všeobecný e-mail."
+            },
+            {
+                "key": "field_rl_agent_photo",
+                "label": "Fotka makléra",
+                "name": "agent_photo",
+                "type": "image",
+                "return_format": "array",
+                "preview_size": "medium",
+                "library": "all"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "options_page",
+                    "operator": "==",
+                    "value": "rezidencia-lomnica-kontakt"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "active": true,
+        "show_in_rest": 0,
+        "description": "Centrálne kontaktné údaje pre celý web."
+    }
+]

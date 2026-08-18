@@ -21,7 +21,8 @@
 - [ ] Overiť CPT iba pre samostatne predávané parkovanie; sklad ostáva atribútom bytu.
 - [ ] Doplniť lomnické assety do wp-content/uploads/rezidencia-lomnica/.
 - [ ] Nastaviť rezidencia_lomnica_asset_url, ak budú assety v inom umiestnení.
-- [ ] Nastaviť kontaktné údaje a texty v Bricks/ACF Options.
+- [ ] Vytvoriť ACF Options stránku „Kontaktné údaje“ a importovať docs/acf/kontaktne-udaje.json (postup v docs/ACF-KONTAKTNE-UDAJE.md).
+- [ ] Napojiť hlavičku, pätičku, stránku Kontakt a formuláre na dynamické tagy `:option` namiesto natvrdo písaných kontaktov.
 - [ ] Doplniť lomnické page ID/slugy; nikdy nepoužiť Štúrové ID bez overenia.
 - [ ] Doplniť lomnický analytics site ID alebo modul dočasne deaktivovať.
 - [ ] Nastaviť GitHub Secrets a overiť SFTP_TARGET.

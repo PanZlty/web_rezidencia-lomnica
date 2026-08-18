@@ -108,3 +108,11 @@ Stĺpec statusu má v Sheets podmienené formátovanie – celá bunka zelená /
 ## 7. Stránky a obsah
 
 Slugy, page ID, kontakty, doména, analytika, texty, Bricks element IDs a assety sa nesmú preberať zo Štúrovej naslepo. Doplniť ich podľa lomnického WordPress projektu a zaznamenať do docs/MIGRATION-CHECKLIST.md.
+
+## 8. Kontaktné údaje
+
+Telefón, e-mail, adresa a maklér majú jediný zdroj – ACF Options stránku „Kontaktné údaje“ (slug `rezidencia-lomnica-kontakt`). Bricks ich číta dynamickými tagmi s príponou `:option`, napr. `{acf_contact_phone:option}`.
+
+Polia sú zámerne definované **v ACF, nie v mu-plugins**. Repozitár drží iba export `docs/acf/kontaktne-udaje.json` a popis v docs/ACF-KONTAKTNE-UDAJE.md; pri zmene štruktúry polí treba export znova stiahnuť a commitnúť.
+
+Názvy polí sú kontrakt: `contact_phone`, `contact_email`, `contact_address`, `contact_company`, `agent_name`, `agent_role`, `agent_phone`, `agent_email`, `agent_photo`. Meniť sa dá label, nie name.
