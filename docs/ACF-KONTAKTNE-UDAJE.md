@@ -1,82 +1,90 @@
 # Centrálne kontaktné údaje (ACF Options)
 
-Telefón, e-mail, adresa a údaje o maklérovi majú jedno miesto. Zmena v ACF sa prejaví všade, kde sa na web vypisujú – žiadne prepisovanie po jednotlivých Bricks elementoch.
+Telefón, e-mail a údaje o maklérovi majú jedno miesto v ACF. Zmena tam sa prejaví všade, kde je na webe dynamický tag.
 
-> Výnimka z pravidla v `AGENTS.md`: tieto polia sa **nedefinujú v mu-plugins**, ale priamo v ACF. Repozitár drží len export a túto dokumentáciu. Pri zmene štruktúry polí treba export nižšie znova stiahnuť z ACF a commitnúť, inak sa stav v repe rozíde s realitou.
+**Toto už na webe existuje a je vyplnené.** Nič sa nevytvára nanovo – dokument popisuje skutočný stav zistený cez WordPress MCP.
 
-## 1. Options stránka
+## 1. Kde to je
 
 | Položka | Hodnota |
 |---|---|
-| Názov | Kontaktné údaje |
-| Slug (menu_slug) | rs rezidencia-lomnica-kontakt |
+| Options stránka | Nastavenia projektu |
+| Slug | rs project-settings |
+| Field group | Globálne nastavenia projektu |
+| Group key | rs group_6a00e3ef6c04c |
 | Oprávnenie | rs edit_posts |
-| Ikona | rs dashicons-phone |
 
-Vytvorenie: **ACF → Options Pages → Add New** (ACF PRO 6.2 a novšie). V starších verziách ACF sa options stránka dá spraviť iba kódom cez `acf_add_options_page()`.
+Polia sú v záložke **Kontaktné údaje**.
 
-Slug musí sedieť presne, inak sa field group nezobrazí – lokácia skupiny je naviazaná naň.
+Na tej istej options stránke sedí aj skupina **Option Page** (`group_638315a281bf1`) – tá patrí pluginu Advanced Themer, jej polia majú prefix `brxc_` a nemajú s kontaktmi nič spoločné. Nechať tak.
 
 ## 2. Polia
 
-Import: **ACF → Tools → Import Field Groups** → `docs/acf/kontaktne-udaje.json`.
+| Pole | Name | Typ |
+|---|---|---|
+| Meno agenta | rs agent_name | text |
+| Telefón agenta | rs agent_phone | text |
+| Email agenta | rs agent_email | email |
+| Email webu | rs site_email | email |
+| Web agenta | rs agent_website | url |
+| Fotka agenta | rs agent_photo | image |
+| Logo agenta | rs agent_logo | image |
+| Pracovné hodiny | rs business_hours | text |
+| Poznámky | rs notes | textarea |
 
-### Záložka „Všeobecné"
+Názvy polí sú kontrakt – visia na nich Bricks dynamic tagy. Meniť sa dá label, nie name.
 
-| Pole | Name | Typ | Poznámka |
-|---|---|---|---|
-| Telefón | rs contact_phone | text | Tvar `+421 900 123 456` |
-| E-mail | rs contact_email | email | |
-| Adresa | rs contact_address | textarea | Nové riadky ako `<br>` |
-| Názov spoločnosti | rs contact_company | text | |
+Samostatné pole pre všeobecný telefón webu neexistuje; `agent_phone` slúži ako jediné telefónne číslo. Pre e-mail existujú dve polia (`agent_email` a `site_email`) a dnes majú rovnakú hodnotu.
 
-### Záložka „Maklér"
+## 3. Kde to už web číta
 
-| Pole | Name | Typ | Poznámka |
-|---|---|---|---|
-| Meno a priezvisko | rs agent_name | text | |
-| Pozícia | rs agent_role | text | napr. Realitný maklér |
-| Telefón makléra | rs agent_phone | text | Ak prázdne, použi `contact_phone` |
-| E-mail makléra | rs agent_email | email | Ak prázdne, použi `contact_email` |
-| Fotka makléra | rs agent_photo | image | Return format **array** |
+| Miesto | Použité tagy |
+|---|---|
+| Šablóna FOOTER (661) | rs {acf_agent_phone}, {acf_site_email}, {acf_business_hours} |
+| Šablóna HEADER (838) | rs {acf_agent_phone}, {acf_site_email} |
+| Stránka Kontakt (1394) | rs {acf_agent_name}, {acf_site_email}, {acf_agent_email}, {acf_agent_phone} |
 
-Názvy polí (`name`) sú kontrakt – na nich visia všetky Bricks dynamic tagy. Meniť sa dá label, nie name.
+Nikde v Bricks obsahu sa nenašiel natvrdo napísaný telefón, e-mail ani meno agenta. Centrálna správa teda funguje na týchto troch miestach.
 
-## 3. Použitie v Bricks
+## 4. Šablóna CTA a shortcodes
 
-Options polia sa v Bricks adresujú s príponou `:option`:
+Šablóna **CTA (658)** používa shortcodes `[rs_contact_email]` a `[rs_contact_phone]` – pozostatok po Štúrovej. V projekte chýbali, takže neregistrovaný shortcode WordPress vypisoval doslovne a v CTA sekcii sa návštevníkovi ukazoval text `[rs_contact_phone]`.
+
+Rieši to `mu-plugins/rezidencia-lomnica/contact-shortcodes.php`, ktorý ich registruje a hodnoty číta z ACF options. Žiadne polia nedefinuje.
+
+| Shortcode | Zdroj | Výstup |
+|---|---|---|
+| rs [rs_contact_phone] | agent_phone | rs 0948 757 959 |
+| rs [rs_contact_phone_url] | agent_phone | rs tel:+421948757959 |
+| rs [rs_contact_email] | site_email | rs info@partnersreal.sk |
+| rs [rs_contact_email_url] | site_email | rs mailto:info@partnersreal.sk |
+| rs [rs_agent_name] | agent_name | rs Ing. Ladislav Uzík |
+
+Vedúca nula sa do `tel:` prepisuje na `+421`; znesie aj tvary `+421 948 …` a `00421948…`.
+
+Pole `notes` na options stránke obsahuje aj `[rs_contact_cta_text]`, ku ktorému neexistuje zodpovedajúce ACF pole. Nie je nikde použitý, preto sa neregistruje.
+
+### Prečo shortcodes a nie dynamic tagy
+
+Čistejšie by bolo prepnúť CTA na `{acf_agent_phone}` a `{acf_site_email}`, ako to má FOOTER a HEADER. **Do tejto šablóny sa ale nedá zapísať cez Bricks REST/MCP.** Obsahuje element typu `next-arrow-button-v2`, ktorý sa mimo builderu neregistruje, a Bricks pri ukladaní odmietne celý strom s chybou `Unknown element type`.
+
+Rovnaký problém má šablóna **HERO - slider ken burns (859)** kvôli elementu `brf-lottie`. Ostatných 15 Bricks objektov je zapisovateľných.
+
+Keď sa CTA raz prepne v builderi na dynamic tagy, tento modul sa dá zmazať.
+
+## 5. Ako to používať v Bricks
+
+Options polia sa v tomto projekte adresujú bez prípony, tak ako to má FOOTER:
 
 ```
-{acf_contact_phone:option}
-{acf_contact_email:option}
-{acf_agent_name:option}
-{acf_agent_role:option}
-{acf_agent_photo:option}
+{acf_agent_phone}
+{acf_site_email}
+{acf_agent_name}
+{acf_agent_photo}
 ```
 
-**Telefón ako odkaz:** do elementu Button/Text link daj do poľa URL `tel:{acf_contact_phone:option}`. Medzery v čísle väčšina prehliadačov znesie; ak by robili problém, drž v ACF číslo bez medzier a formátuj ho cez CSS `letter-spacing`, prípadne pridaj druhé pole na zobrazovaný tvar.
+Telefón ako odkaz: do URL daj `tel:{acf_agent_phone}`. E-mail: `mailto:{acf_site_email}`.
 
-**E-mail ako odkaz:** `mailto:{acf_contact_email:option}`.
+## 6. Poznámka k zdroju pravdy
 
-**Fotka makléra:** element Image → Dynamic Data → `{acf_agent_photo:option}`. Return format musí byť array, inak Bricks dostane len ID.
-
-**Fallback maklérových kontaktov** Bricks sám nerieši. Buď obe polia vypĺňaj, alebo v šablóne použi podmienku na `agent_phone` a ako druhú vetvu `contact_phone`.
-
-## 4. Kde to na webe treba napojiť
-
-Po vytvorení polí treba prejsť tieto miesta a nahradiť natvrdo napísané hodnoty dynamickými tagmi:
-
-- [ ] Hlavička – telefón, e-mail
-- [ ] Pätička – telefón, e-mail, adresa, názov spoločnosti
-- [ ] Stránka Kontakt – celý kontaktný blok vrátane makléra
-- [ ] Formuláre – adresát notifikácií vo FluentForms
-- [ ] Sekcia „Máte otázku?" a podobné CTA bloky
-- [ ] Schema.org / SEO plugin, ak sa tam kontakty duplikujú
-
-Dovtedy platí, že zmena v ACF sa prejaví len tam, kde už dynamický tag je.
-
-## 5. Čo nie je vyriešené
-
-- Options stránka aj `return_format` obrázka vyžadujú **ACF PRO**.
-- Polia nie sú verzionované v kóde, takže zmena v ACF UI sa do repa nedostane sama.
-- Fallback maklér → všeobecný kontakt je konvencia, nie vynútené správanie.
+Polia sú definované v ACF, nie v `mu-plugins/`. Je to zámerná výnimka z pravidla v `AGENTS.md`. Dôsledok: zmena štruktúry polí v ACF UI sa do repozitára sama nedostane a tento dokument treba aktualizovať ručne.

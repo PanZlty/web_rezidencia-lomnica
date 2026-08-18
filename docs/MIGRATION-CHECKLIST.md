@@ -21,8 +21,11 @@
 - [ ] Overiť CPT iba pre samostatne predávané parkovanie; sklad ostáva atribútom bytu.
 - [ ] Doplniť lomnické assety do wp-content/uploads/rezidencia-lomnica/.
 - [ ] Nastaviť rezidencia_lomnica_asset_url, ak budú assety v inom umiestnení.
-- [ ] Vytvoriť ACF Options stránku „Kontaktné údaje“ a importovať docs/acf/kontaktne-udaje.json (postup v docs/ACF-KONTAKTNE-UDAJE.md).
-- [ ] Napojiť hlavičku, pätičku, stránku Kontakt a formuláre na dynamické tagy `:option` namiesto natvrdo písaných kontaktov.
+- [x] ACF Options stránka s kontaktmi existuje a je vyplnená (Nastavenia projektu / Globálne nastavenia projektu).
+- [x] Hlavička, pätička a stránka Kontakt čítajú kontakty dynamickými tagmi, nie natvrdo.
+- [x] Šablóna CTA (658): shortcodes `[rs_contact_phone]` a `[rs_contact_email]` už čítajú z ACF options cez contact-shortcodes.php.
+- [ ] Voliteľne prepnúť CTA v builderi na `{acf_agent_phone}` / `{acf_site_email}` a modul contact-shortcodes.php zmazať (cez MCP to nejde, šablóna má element next-arrow-button-v2).
+- [ ] Vyčistiť pole `notes` na options stránke – je v ňom zoznam shortcodes zo Štúrovej vrátane nepoužívaného `[rs_contact_cta_text]`.
 - [ ] Doplniť lomnické page ID/slugy; nikdy nepoužiť Štúrové ID bez overenia.
 - [ ] Doplniť lomnický analytics site ID alebo modul dočasne deaktivovať.
 - [ ] Nastaviť GitHub Secrets a overiť SFTP_TARGET.

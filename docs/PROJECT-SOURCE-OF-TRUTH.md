@@ -111,8 +111,10 @@ Slugy, page ID, kontakty, doména, analytika, texty, Bricks element IDs a assety
 
 ## 8. Kontaktné údaje
 
-Telefón, e-mail, adresa a maklér majú jediný zdroj – ACF Options stránku „Kontaktné údaje“ (slug `rezidencia-lomnica-kontakt`). Bricks ich číta dynamickými tagmi s príponou `:option`, napr. `{acf_contact_phone:option}`.
+Telefón, e-mail a maklér majú jediný zdroj – ACF Options stránku **Nastavenia projektu** (slug `project-settings`), field group **Globálne nastavenia projektu** (`group_6a00e3ef6c04c`), záložka Kontaktné údaje. Bricks ich číta dynamickými tagmi, napr. `{acf_agent_phone}`.
 
-Polia sú zámerne definované **v ACF, nie v mu-plugins**. Repozitár drží iba export `docs/acf/kontaktne-udaje.json` a popis v docs/ACF-KONTAKTNE-UDAJE.md; pri zmene štruktúry polí treba export znova stiahnuť a commitnúť.
+Polia sú zámerne definované **v ACF, nie v mu-plugins**. Repozitár drží iba popis v docs/ACF-KONTAKTNE-UDAJE.md; zmena štruktúry polí v ACF UI sa do repa sama nedostane.
 
-Názvy polí sú kontrakt: `contact_phone`, `contact_email`, `contact_address`, `contact_company`, `agent_name`, `agent_role`, `agent_phone`, `agent_email`, `agent_photo`. Meniť sa dá label, nie name.
+Názvy polí sú kontrakt: `agent_name`, `agent_phone`, `agent_email`, `site_email`, `agent_website`, `agent_photo`, `agent_logo`, `business_hours`, `notes`. Meniť sa dá label, nie name.
+
+Šablóny FOOTER, HEADER a stránka Kontakt už z týchto polí čítajú. Šablóna CTA namiesto toho volá neexistujúce shortcodes `[rs_contact_phone]` a `[rs_contact_email]` – detail v docs/ACF-KONTAKTNE-UDAJE.md.

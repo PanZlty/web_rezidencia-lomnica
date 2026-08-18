@@ -35,6 +35,7 @@ $rezidencia_lomnica_modules = [
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/image-map-css.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/image-map-styles.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/image-map-hover-guard.php',
+    WPMU_PLUGIN_DIR . '/rezidencia-lomnica/contact-shortcodes.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/google-sheets-sync.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/legacy-storage-cleanup.php',
 ];
