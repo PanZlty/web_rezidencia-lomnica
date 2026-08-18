@@ -60,6 +60,14 @@ Cena sa na fronte zobrazuje **iba pri statuse `available`**. Pri `reserved`, `so
 
 Pravidlo je centralizované v `rs_imp_price_display($price, $status)` v `image-map-shortcodes.php` a používajú ho `[rs_apartment_price]`, tooltip bytu, tooltip parkovania aj `window.RS_IMP_MAP_UNITS`. Placeholder sa dá zmeniť filtrom `rezidencia_lomnica_price_placeholder`. Nové miesta, ktoré vypisujú cenu, musia volať `rs_imp_price_display()`, nie `rs_imp_price_text()`.
 
+### Najnižšia cena („Už od …“)
+
+Hero sekcia volá `[rs_lowest_available_price]`, ktorý registruje `lowest-price-shortcode.php`. Vracia najnižšiu cenu spomedzi jednotiek so statusom `available` a vyplnenou cenou, formátovanú cez `rs_imp_price_text()` (napr. `280 500 €`). Rezervované a predané jednotky sa nezapočítavajú, takže „už od“ nikdy neukáže cenu, ktorá sa už nedá kúpiť.
+
+Predvolene počíta iba byty (`type="apartment"`); `type="parking"` alebo `type="all"` sa dajú vyžiadať atribútom – parkovacie CPT na webe existuje a jeho ceny by inak „už od“ stlačili. Keď nie je dostupná ani jedna jednotka s cenou, vypíše sa placeholder `-`, prepísateľný atribútom `empty` alebo filtrom `rezidencia_lomnica_price_placeholder`; samotná hodnota sa dá prepísať filtrom `rezidencia_lomnica_lowest_price`.
+
+Výsledok je v transiente na 15 minút. Maže ho akcia `rezidencia_lomnica_units_synced` (volá ju sync po zmene), uloženie bytu či parkovania a zmazanie jednotky.
+
 ## 4a. Google Sheets sync
 
 Zdroj: tabuľka `RS_GSHEETS_SPREADSHEET_ID`, hárok `Hárok1`. Beží cez WP-Cron každých 15 minút (`rs_gsheets_sync_hook`), bez API kľúča cez verejný gviz endpoint.
@@ -97,6 +105,7 @@ Stĺpec statusu má v Sheets podmienené formátovanie – celá bunka zelená /
 ## 6. Shortcodes zachované pre migráciu
 
 - [rs_apartment_price]
+- [rs_lowest_available_price]
 - [rs_apartment_context]
 - [rs_apartment_map_card]
 - [rs_map_unit_card]
