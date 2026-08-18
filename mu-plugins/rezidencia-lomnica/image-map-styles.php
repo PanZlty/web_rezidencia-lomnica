@@ -86,11 +86,16 @@ add_action('wp_enqueue_scripts', static function () {
   background: transparent !important;
   box-shadow: none !important;
   filter: drop-shadow(0 28px 60px rgba(0,0,0,0.22)) drop-shadow(0 10px 24px rgba(0,0,0,0.14)) !important;
-  /* Image Map Pro ma na objektoch pevnu sirku 300px a padding 15px.
-     Okraje karty su 2x vacsie (30px), preto sa sirka dvihla na 330px,
-     aby obsah ostal na povodnych 270px a meta riadok sa nezalomil.
+  /* Skutocna struktura tooltipu (odmerane na fronte):
+       .imp-tooltip            – priehladny, padding 15px od IMP
+         .imp-tooltip-content  – bez paddingu
+           > div               – BIELA KARTA, tu sedi padding aj radius
+             .rs-map-tooltip   – samotny obsah
+     Biela karta ma teda sirku (width - 30), obsah (width - 30 - 2*padding).
+     Pri 380px: karta 350px, obsah 290px – vacsia karta aj vacsie okraje,
+     a "Sklad X m2" sa zmesti do stlpca (88px vs 76px).
      IMP si tooltip meria az pri zobrazeni, takze pozicovanie sedi. */
-  width: 330px !important;
+  width: 380px !important;
   max-width: calc(100vw - 28px) !important;
 }
 
