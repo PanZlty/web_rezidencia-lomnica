@@ -66,6 +66,7 @@ $rezidencia_lomnica_modules = [
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/image-map-mobile.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/apartment-status-pills.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/apartment-status-pill-styles.php',
+    WPMU_PLUGIN_DIR . '/rezidencia-lomnica/apartment-gallery-styles.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/apartment-gallery-overlay.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/construction-progress.php',
     WPMU_PLUGIN_DIR . '/rezidencia-lomnica/termin-vystavby-styles.php',
