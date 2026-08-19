@@ -607,8 +607,10 @@ add_action('wp_head', function () {
         box-shadow: 0 30px 70px rgba(13, 28, 23, 0.32) !important;
       }
 
-      /* Vnutorny wrapper uz kartu nekresli, aby sa paddingy nescitavali. */
-      .imp-tooltips-container.is-fullscreen .imp-fullscreen-tooltip .imp-tooltip-content > div {
+      /* Vnutorny wrapper uz kartu nekresli, aby sa paddingy nescitavali.
+         Zatvaracie X je tiez priamy div v karte, preto ho treba vynechat,
+         inak dostane width:100% a stratil by kruh aj poziciu vpravo. */
+      .imp-tooltips-container.is-fullscreen .imp-fullscreen-tooltip .imp-tooltip-content > div:not(.imp-tooltip-close-button) {
         width: 100% !important;
         max-width: none !important;
         padding: 0 !important;
@@ -622,13 +624,41 @@ add_action('wp_head', function () {
         max-width: none !important;
       }
 
-      /* IMP dava X na right/top -22px, co by na uzkom mobile vyslo mimo obrazovky. */
-      .imp-tooltips-container.is-fullscreen .imp-fullscreen-tooltip .imp-tooltip-close-button {
+      /* IMP dava X na right/top -22px, co by na uzkom mobile vyslo mimo obrazovky.
+         Rozmery drzime explicitne, aby ostal kruh 44x44 aj s nasimi override-mi.
+         Druhy selektor je kvoli specificite: pravidlo pre wrapper vyssie ma
+         4 triedy + element, takze samotne ".imp-tooltip-close-button" by proti
+         nemu prehralo. */
+      .imp-tooltips-container.is-fullscreen .imp-fullscreen-tooltip .imp-tooltip-close-button,
+      .imp-tooltips-container.is-fullscreen .imp-fullscreen-tooltip .imp-tooltip-content .imp-tooltip-close-button {
+        position: absolute !important;
         right: 10px !important;
         top: 10px !important;
+        left: auto !important;
+        bottom: auto !important;
+        width: 44px !important;
+        min-width: 44px !important;
+        max-width: 44px !important;
+        height: 44px !important;
+        min-height: 44px !important;
+        max-height: 44px !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+        border-radius: 999px !important;
         background: #fff !important;
         color: var(--neutral-dark, #162520) !important;
         box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+
+      .imp-tooltips-container.is-fullscreen .imp-fullscreen-tooltip .imp-tooltip-close-button .imp-icon,
+      .imp-tooltips-container.is-fullscreen .imp-fullscreen-tooltip .imp-tooltip-content .imp-tooltip-close-button .imp-icon {
+        width: 20px !important;
+        height: 20px !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
       }
     </style>
     <?php
