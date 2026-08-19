@@ -574,6 +574,62 @@ add_action('wp_head', function () {
           min-height: 56px !important;
         }
       }
+
+      /* Fullscreen tooltip na mobile.
+         IMP ma nastavene fullscreen_tooltips = "mobile-only", takze na mobile
+         nerenderuje .imp-tooltip ale .imp-fullscreen-tooltip v .imp-tooltips-container.is-fullscreen.
+         Desktopove pravidla pre bielu kartu (.imp-tooltip .imp-tooltip-content > div)
+         tam nesadnu, naopak .imp-tooltip-content dostane transparentne pozadie,
+         preto tooltip na mobile "nemal pozadie". Karta a prekrytie sa preto
+         nastavuju samostatne. Trieda .is-fullscreen existuje iba v tomto rezime,
+         takze blok nemusi byt v media query. */
+      .imp-tooltips-container.is-fullscreen {
+        background: rgba(13, 28, 23, 0.62) !important;
+        -webkit-backdrop-filter: blur(6px) !important;
+        backdrop-filter: blur(6px) !important;
+        overscroll-behavior: contain !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+
+      /* display/opacity riadi IMP pri otvoreni, tu ich zamerne neprepisujeme. */
+      .imp-tooltips-container.is-fullscreen .imp-fullscreen-tooltip {
+        padding: calc(24px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom)) !important;
+      }
+
+      .imp-tooltips-container.is-fullscreen .imp-fullscreen-tooltip .imp-tooltip-content {
+        width: 100% !important;
+        max-width: 420px !important;
+        margin: 0 auto !important;
+        padding: 24px !important;
+        box-sizing: border-box !important;
+        background: #fff !important;
+        border-radius: 24px !important;
+        box-shadow: 0 30px 70px rgba(13, 28, 23, 0.32) !important;
+      }
+
+      /* Vnutorny wrapper uz kartu nekresli, aby sa paddingy nescitavali. */
+      .imp-tooltips-container.is-fullscreen .imp-fullscreen-tooltip .imp-tooltip-content > div {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 0 !important;
+        background: transparent !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+
+      .imp-tooltips-container.is-fullscreen .rs-map-tooltip {
+        width: 100% !important;
+        max-width: none !important;
+      }
+
+      /* IMP dava X na right/top -22px, co by na uzkom mobile vyslo mimo obrazovky. */
+      .imp-tooltips-container.is-fullscreen .imp-fullscreen-tooltip .imp-tooltip-close-button {
+        right: 10px !important;
+        top: 10px !important;
+        background: #fff !important;
+        color: var(--neutral-dark, #162520) !important;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24) !important;
+      }
     </style>
     <?php
 }, 99);
